@@ -32,7 +32,8 @@
 		   pull in any recent changes that have been merged to master while we've been working on our feature branch.
 		4) Now it's finally time to merge our changes back into master, which will be done using a Pull Request (PR).
 		   To do this, navigate to the repository in the browser, select the branch where the pull request is being
-		   made from, and click `Compare and pull request`. This will open the request, where you can make notes.
+		   made from, change to the  `Pull Requests` tab, and click `Compare and pull request`. This will open the request, 
+		   and allow you to attach notes.
 		5) Lastly, all we need to do is *wait for one (1) other team member to review our changes*. This is critical 
 		   to ensuring that the changes are good, tested, and ready for deployment!
 		   
