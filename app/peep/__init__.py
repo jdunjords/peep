@@ -26,9 +26,11 @@ def create_app(config_class=Config):
 	from peep.posts.routes import posts
 	from peep.main.routes import main
 	from peep.errors.handlers import errors
+	from peep.images.routes import images
 	app.register_blueprint(users)
 	app.register_blueprint(posts)
 	app.register_blueprint(main)
 	app.register_blueprint(errors)
+	app.register_blueprint(images)
 
 	return app
