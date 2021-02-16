@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from peep import db, bcrypt
-from peep.models import User, Post
+from peep.models import User, Post, Image
 from peep.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, 
                                    RequestResetForm, ResetPasswordForm)
 from peep.users.utils import save_picture, send_reset_email
@@ -71,7 +71,7 @@ def account():
 	return render_template('account.html', title='Account', image_file=image_file, form=form)
 
 
-@users.route('/user/<string:username>')
+@users.route('/user/<string:username>/posts')
 def user_posts(username):
 	# sets default to first page
 	page = request.args.get('page', 1, type=int)
@@ -81,6 +81,12 @@ def user_posts(username):
 		.paginate(page=page, per_page=5)
 	return render_template('user_posts.html', posts=posts, user=user)
 
+@users.route('/user/<string:username>/images')
+def user_images(username):
+	user = User.query.filter_by(username=username).first_or_404()
+	images = Image.query.filter_by(owner=user)\
+		.order_by(Image.date_uploaded.desc()).all()
+	return render_template('user_images.html', images=images, user=user)
 
 @users.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
