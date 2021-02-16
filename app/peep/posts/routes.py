@@ -1,9 +1,9 @@
 from flask import (Blueprint, render_template, url_for, 
                    flash, redirect, request, abort)
 from flask_login import current_user, login_required
-from flaskblog import db
-from flaskblog.models import Post
-from flaskblog.posts.forms import PostForm
+from peep import db
+from peep.models import Post
+from peep.posts.forms import PostForm
 
 posts = Blueprint('posts', __name__)
 

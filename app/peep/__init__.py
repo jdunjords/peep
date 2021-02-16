@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
-from flaskblog.config import Config
+from peep.config import Config
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -22,10 +22,10 @@ def create_app(config_class=Config):
 	mail.init_app(app)
 
 	# fetch and register blueprints
-	from flaskblog.users.routes import users
-	from flaskblog.posts.routes import posts
-	from flaskblog.main.routes import main
-	from flaskblog.errors.handlers import errors
+	from peep.users.routes import users
+	from peep.posts.routes import posts
+	from peep.main.routes import main
+	from peep.errors.handlers import errors
 	app.register_blueprint(users)
 	app.register_blueprint(posts)
 	app.register_blueprint(main)

@@ -3,7 +3,7 @@ import secrets
 from PIL import Image
 from flask import url_for, current_app
 from flask_mail import Message
-from flaskblog import mail
+from peep import mail
 
 
 # TODO do we need to check for collisions before saving??
