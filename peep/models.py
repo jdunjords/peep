@@ -8,7 +8,7 @@ from flask import current_app
 def load_user(user_id):
 	return User.query.get(int(user_id))
 
-# tablename is automatically 'user' (lowercase)
+# tablename: 'user'
 class User(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(20), unique=True, nullable=False)
@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
 	image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 	password = db.Column(db.String(60), nullable=False)
 	post = db.relationship('Post', backref='author', lazy=True)
+	image = db.relationship('Image', backref='owner', lazy=True)
 
 	def get_reset_token(self, expires_sec=1800):
 		s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -33,7 +34,7 @@ class User(db.Model, UserMixin):
 	def __repr__(self):
 		return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
-# tablename is automatically 'post' (lowercase)
+# tablename: 'post'
 class Post(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(100), nullable=False)
@@ -43,3 +44,14 @@ class Post(db.Model):
 
 	def __repr__(self):
 		return f"Post('{self.title}', '{self.date_posted}')"
+
+# tablename: 'image'
+class Image(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+	image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+	needs_review = db.Column(db.Boolean, nullable=False, default=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+	def __repr__(self):
+		return f"Image('{self.id}', '{self.date_uploaded}', '{self.image_file}', '{self.user_id}')"

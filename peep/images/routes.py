@@ -12,7 +12,7 @@ images = Blueprint('images', __name__)
 def display_images():
 	pass
 
-@images.classify('/classify')
+@images.route('/classify')
 def classify():
 	pass
 
