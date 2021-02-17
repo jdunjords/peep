@@ -8,5 +8,29 @@
 		src="{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
 		alt=""
 		>
+		{% if image.owner == current_user %}
+			<div>
+				<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{image.id}}">Delete</button>
+			</div>
+			<!-- Modal -->
+			<div class="modal fade" id="deleteModal{{image.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+						<h5 class="modal-title" id="deleteModalLabel">Delete Image?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						</div>
+						<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<form action="{{ url_for('images.delete_image', username=current_user.username, image_id=image.id) }}" method="POST">
+							<input type="submit" class="btn btn-danger" value="delete">
+						</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
     {% endfor %}
 {% endblock content %}

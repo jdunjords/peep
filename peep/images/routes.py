@@ -1,5 +1,6 @@
+import os
 from flask import (Blueprint, render_template, url_for, 
-                   flash, redirect, request, abort)
+                   flash, redirect, request, abort, current_app)
 from flask_login import current_user, login_required
 from peep import db
 from peep.models import Image
@@ -12,6 +13,7 @@ images = Blueprint('images', __name__)
 # the actions user wish to perform in images
 
 @images.route('/upload-image', methods=['GET', 'POST'])
+@login_required
 def new_image():
 	form = ImageForm()
 	# if form validates after user submits
@@ -24,3 +26,18 @@ def new_image():
 		return redirect(url_for('users.user_images', username=current_user.username))
 	return render_template('upload_image.html', title='Upload Image', 
                            form=form, legend='Upload Image')
+
+@images.route('/user/<string:username>/delete/<int:image_id>', methods=['POST'])
+@login_required
+def delete_image(username, image_id):
+	image = Image.query.get_or_404(image_id)
+	if image.owner != current_user:
+		# HTTP response for a forbidden route
+		abort(403)
+	db.session.delete(image)
+	db.session.commit()
+	full_image_path = os.path.join(current_app.root_path, 'static', \
+		                        'user_uploads', image.image_file)
+	os.remove(full_image_path)
+	flash('Your image has been deleted!', 'success')
+	return redirect(url_for('users.user_images', username=current_user.username))
