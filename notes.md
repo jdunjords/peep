@@ -1,7 +1,3 @@
-- need to show 'Image' tab when users are logged in
-	* link to url_for('user_images', username=user.??)
-- install tensorflow/cv dependencies in peep.images.utils 
-
 # Re-making database after adding another model
 From an interactive python interpreter:
 ```
