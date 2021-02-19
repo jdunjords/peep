@@ -1,5 +1,5 @@
 body {
-	background: #fafafa;
+	background: #a3b18a;
 	color: #333333;
 	margin-top: 5rem;
   }
@@ -9,9 +9,13 @@ body {
   }
   
   .bg-steel {
-	background-color: black;
+	background-color: #344e41;
   }
-  
+
+  .list-group-item {
+    background-color: #dad7cd;
+	border-style: solid;
+  }
   .site-header .navbar-nav .nav-link {
 	color: #cbd5db;
   }
@@ -25,7 +29,7 @@ body {
   }
   
   .content-section {
-	background: #ffffff;
+	background: #dad7cd;
 	padding: 10px 20px;
 	border: 1px solid #dddddd;
 	border-radius: 3px;
