@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, Blueprint
+from flask import render_template, request, redirect, url_for, flash, Blueprint, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from peep import db, bcrypt
 from peep.models import User, Post, Image
@@ -84,6 +84,9 @@ def user_posts(username):
 @users.route('/user/<string:username>/images')
 def user_images(username):
 	user = User.query.filter_by(username=username).first_or_404()
+	# users can only view their own images
+	if user != current_user:
+		abort(403)
 	images = Image.query.filter_by(owner=user)\
 		.order_by(Image.date_uploaded.desc()).all()
 	return render_template('user_images.html', images=images, user=user)

@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from peep import db
 from peep.models import Image
 from peep.images.forms import ImageForm
-from peep.images.utils import save_picture
+from peep.images.utils import model_classify, save_picture
 
 images = Blueprint('images', __name__)
 
@@ -41,3 +41,9 @@ def delete_image(username, image_id):
 	os.remove(full_image_path)
 	flash('Your image has been deleted!', 'success')
 	return redirect(url_for('users.user_images', username=current_user.username))
+
+@images.route('/classify-bird/<int:image_id>')
+def classify_bird(image_id):
+	image = Image.query.get_or_404(image_id)
+	flash(model_classify(image.image_file), 'info')
+	return redirect(url_for('users.user_images', username=image.owner.username))
