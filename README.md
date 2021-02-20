@@ -4,16 +4,18 @@
 # Python Version (important!)
 * Python 3.8.6 (specifically needed for tensorflow 2)
 * **pyenv** is built to manage python versions
-* To make sure we're all using the same version, issue: pyenv global 3.8.6
+* To make sure we're all using the same version, issue: `pyenv global 3.8.6`
 * Note: a different package may be required to do this on Windows
 
 # Package dependencies
 Before installing, create a new virtual environment.
-* python -m venv /path/to/virtual/environ/folder
+* `python -m venv /path/to/virtual/environ/folder`
 	- creates virtual environment in specified location with specified name
 	- e.g., name of the virtual environment for above command would be 'folder'
-* pip install -r requirements.txt
-	-  installs all project package requirements listed in requirements.txt:
+* `source /path/to/virtual/environ/folder/bin/activate`
+	- this command activates the virtual environment
+* `pip install -r requirements.txt`
+	-  installs all project package requirements listed in requirements.txt
 
 # Github Flow
 - Github flow docs: https://guides.github.com/introduction/flow/
