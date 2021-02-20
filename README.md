@@ -2,8 +2,8 @@
 	- python run.py
 
 # Python Version (important!)
-* Python 3.8.6 (specifically needed for tensorflow 2)
-* **pyenv** is built to manage python versions
+* **Python 3.8.6** (specifically needed for tensorflow 2)
+* `pyenv` is built to manage python versions
 * To make sure we're all using the same version, issue: `pyenv global 3.8.6`
 * Note: a different package may be required to do this on Windows
 
