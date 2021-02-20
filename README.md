@@ -18,7 +18,7 @@ Before installing, create a new virtual environment.
 	-  installs all project package requirements listed in requirements.txt
 
 # Github Flow
-- Github flow docs: https://guides.github.com/introduction/flow/
+Github flow docs: https://guides.github.com/introduction/flow/
 	
 Example: we have a new page to add for user uploads.
 
