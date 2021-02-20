@@ -38,7 +38,3 @@ The flow follows these steps:
    and allow you to attach notes.
 5) Lastly, all we need to do is *wait for one (1) other team member to review our changes*. This is critical 
    to ensuring that the changes are good, tested, and ready for deployment!
-		   
-
-# TODO
-	- get rid of bootstrap href's --> make all links internal and self contained
