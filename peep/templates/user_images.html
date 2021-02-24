@@ -5,7 +5,7 @@
 	{% for image in images %}
 	<div class = "container-fluid"> 
 		<div class = "row image-box">
-			{% if image.id % 2 == 0 %}
+
 				<div class = "item col-md-6">
 					<a href = "{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
 					   class = "fancybox" data-fancybox = "gallery1">
@@ -16,19 +16,7 @@
 						alt="">	
 					</a>
 			   </div>
-			   {% endif %}
-			   {% if image.id % 2 == 1 %}
-				<div class = "item col-md-6">
-					<a href = "{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
-					class = "fancybox" data-fancybox = "gallery1">
-					<img
-					class=""
-					style="height: 100%; width: 100%;"
-					src="{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
-					alt="">	
-				</a>
-			</div>
-			{% endif %}
+		
 			{% if image.owner == current_user %}
 				<div>
 					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{url_for('images.classify_bird', image_id=image.id)}}">Identify</a> <br>
