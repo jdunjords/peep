@@ -8,6 +8,9 @@ body {
 	color: #444444;
   }
   
+  .image-box{
+    margin: 20px;
+  }
   .bg-steel {
 	background-color: #344e41;
   }
