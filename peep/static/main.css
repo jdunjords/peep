@@ -1,5 +1,5 @@
 body {
-	background: #a3b18a;
+	background: #fafafa;
 	color: #333333;
 	margin-top: 5rem;
   }
@@ -8,18 +8,11 @@ body {
 	color: #444444;
   }
   
-  .image-box{
-    margin: 20px;
-  }
   .bg-steel {
-	background-color: #344e41;
+	background-color: #5f788a;
   }
-
-  .list-group-item {
-  background-color: #dad7cd;
-	border-style: solid;
-  }
-  .site-header .navbar-nav .nav-link{
+  
+  .site-header .navbar-nav .nav-link {
 	color: #cbd5db;
   }
   
@@ -32,7 +25,7 @@ body {
   }
   
   .content-section {
-	background: #dad7cd;
+	background: #ffffff;
 	padding: 10px 20px;
 	border: 1px solid #dddddd;
 	border-radius: 3px;
@@ -44,17 +37,14 @@ body {
   }
   
   a.article-title:hover {
-	color: #a3b18a;
+	color: #428bca;
 	text-decoration: none;
   }
   
   .article-content {
 	white-space: pre-line;
   }
-
-  a.mr-2 {
-    color: black;
-  }
+  
   .article-img {
 	height: 65px;
 	width: 65px;
@@ -87,45 +77,4 @@ body {
   
   .account-heading {
 	font-size: 2.5rem;
-  }
-
-  .nav-link {
-    color: black;
-  }
-
-   a.nav-link:hover {
-   color: #a3b18a;;
-  }
-  .identify-btn{
-    background-color: black;
-    position: absolute;
-    bottom: 0%;
-    margin: 5px;
-    height: 30px;
-    color: white;
-  }
-  a.identify-btn:hover{
-    color: #a3b18a;
-  }
-
-  .delete-btn{
-    background-color: red;
-    position: absolute;
-    left: 80%;
-    bottom: 0%;
-    margin: 5px;
-    height: 30px;
-    width: 40px;
-    text-align: center;
-    color: white;
-  }
-
-  .mb-3{
-    color: #fffaf0;
-  }
-  .actions {
-    font-size: 20px;
-  }
-  .action-icon {
-    width: 20px;
   }

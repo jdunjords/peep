@@ -1,10 +1,10 @@
-from flask import (Blueprint, render_template, url_for, 
+from flask import (Blueprint, render_template, url_for,
                    flash, redirect, request, abort)
 from flask_login import current_user, login_required
 from peep import db
 from peep.models import Post
 from peep.posts.forms import PostForm
-
+import os
 posts = Blueprint('posts', __name__)
 
 
@@ -13,12 +13,14 @@ posts = Blueprint('posts', __name__)
 def new_post():
 	form = PostForm()
 	if form.validate_on_submit():
-		post = Post(title=form.title.data, content=form.content.data, author=current_user)
+		f = form.filename.data
+		f.save(os.path.join("./static/post_upload/", f.filename))
+		post = Post(title=form.title.data, content=form.content.data, author=current_user,file=os.path.join("/static/post_upload/", f.filename))
 		db.session.add(post)
 		db.session.commit()
 		flash('Your post has been created!', 'success')
 		return redirect(url_for('main.home'))
-	return render_template("create_post.html", title="New Post", 
+	return render_template("create_post.html", title="New Post",
 							form=form, legend='New Post')
 
 
@@ -45,7 +47,7 @@ def update_post(post_id):
 	elif request.method == 'GET':
 		form.title.data = post.title
 		form.content.data = post.content
-	return render_template("create_post.html", title="Update Post", 
+	return render_template("create_post.html", title="Update Post",
 							form=form, legend='Update Post')
 
 

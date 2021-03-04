@@ -2,7 +2,7 @@
 {% block content %}
 	<div class="content-section">
 		<!-- action="" means post form to same route we're currently on -->
-		<form action="" method="POST">
+		<form action="" method="POST" enctype="multipart/form-data">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
 				<legend class="border-bottom mb-4">{{ legend }}</legend>
@@ -18,6 +18,20 @@
 						</div>
 					{% else %}
 						{{ form.title(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+                <div class="form-group">
+					{{ form.filename.label(class="form-control-label") }}
+
+					{% if form.filename.errors %}
+					{{ form.filename(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.filename.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.filename(class="form-control form-control-lg") }}
 					{% endif %}
 				</div>
 				<div class="form-group">
