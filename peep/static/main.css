@@ -100,6 +100,7 @@ body {
     background-color: black;
     position: absolute;
     bottom: 0%;
+    left: 20%;
     margin: 5px;
     height: 30px;
     color: white;
@@ -113,7 +114,16 @@ body {
     position: absolute;
     left: 80%;
     bottom: 0%;
-    margin: 5px;
+    height: 30px;
+    width: 40px;
+    text-align: center;
+    color: white;
+  }
+  .favorite-btn{
+    background-color: black;
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
     height: 30px;
     width: 40px;
     text-align: center;
@@ -128,4 +138,21 @@ body {
   }
   .action-icon {
     width: 20px;
+  }
+  .button-style{
+    height: 40px;
+    width: 280px;
+    padding: 20px;
+    background: rgba(204, 204, 204, 0.5);
+    position: absolute;
+  }
+  .col-lg {
+    padding: 20px;
+    }
+
+  .comment-btn {
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    border: none;
   }
