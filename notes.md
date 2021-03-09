@@ -1,8 +1,8 @@
 # Re-making database after adding another model
 From an interactive python interpreter:
 ```
-from peep import create_all
-app = create_all()
+from peep import create_app
+app = create_app()
 app.app_context().push()
 from peep import db
 from peep.models import User, Image, Post
