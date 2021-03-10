@@ -1,8 +1,0 @@
-__pycache__
-*.jpg
-*.png
-site.db
-lib
-bin
-pyvenv.cfg
-.DS_Store
