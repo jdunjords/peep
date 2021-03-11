@@ -49,6 +49,11 @@ def update_post(post_id):
 		abort(403)
 	form = PostForm()
 	if form.validate_on_submit():
+		if form.picture.data:
+			image_fn = save_picture(form.picture.data)
+			image = Image(image_file=image_fn, owner=current_user)
+			db.session.add(image)
+			post.image_file = image_fn
 		post.title = form.title.data
 		post.content = form.content.data
 		db.session.commit()
