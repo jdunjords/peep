@@ -14,6 +14,11 @@
 			{% endif %}
 		</div>
 		<h2 class="article-title">{{ post.title }}</h2>
+		{% if post.image_file %}
+		<p class="article-pic">
+			<img height='300' src="{{ url_for('static', filename='user_uploads/' + post.image_file) }}" alt="">
+		</p>
+		{% endif %}
 		<p class="article-content">{{ post.content }}</p>
 		</div>
 	</article>
