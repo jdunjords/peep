@@ -1,6 +1,9 @@
 import json
+import os
 
-with open('/etc/config.json') as config_file:
+path = os.path.join(os.getcwd(), 'config.json')
+
+with open(path) as config_file:
     config = json.load(config_file)
 
 class Config:
