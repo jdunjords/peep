@@ -2,8 +2,10 @@ from flask import (Blueprint, render_template, url_for,
                    flash, redirect, request, abort)
 from flask_login import current_user, login_required
 from peep import db
-from peep.models import Post
+from peep.models import Post, Image
 from peep.posts.forms import PostForm
+from peep.images.utils import save_picture
+import os
 
 posts = Blueprint('posts', __name__)
 
@@ -13,7 +15,17 @@ posts = Blueprint('posts', __name__)
 def new_post():
 	form = PostForm()
 	if form.validate_on_submit():
-		post = Post(title=form.title.data, content=form.content.data, author=current_user)
+		print(repr(form.picture.data))
+		if form.picture.data:
+			image_fn = save_picture(form.picture.data)
+			image = Image(image_file=image_fn, owner=current_user)
+			db.session.add(image)
+			db.session.commit()
+			post = Post(title=form.title.data, content=form.content.data, 
+					author=current_user, image_file=image_fn)
+		else:
+			post = Post(title=form.title.data, content=form.content.data, 
+					author=current_user)
 		db.session.add(post)
 		db.session.commit()
 		flash('Your post has been created!', 'success')
