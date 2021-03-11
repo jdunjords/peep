@@ -74,6 +74,7 @@
 					<h3>Actions</h3>
 					<ul class="list-group">
 							<a class="nav-item nav-link actions" href="{{ url_for('users.user_images', username=current_user.username) }}"> My Images</a> 
+							<a class="nav-item nav-link actions" href="{{ url_for('users.user_posts', username=current_user.username) }}"> My Posts</a>
 							<a class="nav-item nav-link actions " href="{{ url_for('images.new_image') }}"> Upload Image</a>
 							<a class="nav-item nav-link actions" href="{{ url_for('posts.new_post') }}"> Create a Post</a>
 					</ul>
