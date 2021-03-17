@@ -15,7 +15,6 @@ posts = Blueprint('posts', __name__)
 def new_post():
 	form = PostForm()
 	if form.validate_on_submit():
-		print(repr(form.picture.data))
 		if form.picture.data:
 			image_fn = save_picture(form.picture.data)
 			image = Image(image_file=image_fn, owner=current_user)
