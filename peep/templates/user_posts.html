@@ -12,7 +12,7 @@
             <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
 			{% if post.image_file %}
 			<p class="article-pic">
-				<img height='300' src="{{ url_for('static', filename='user_uploads/' + post.image_file) }}" alt="">
+				<img height='300' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
 			</p>
 			{% endif %}
             <p class="article-content">{{ post.content }}</p>

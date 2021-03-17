@@ -18,7 +18,7 @@ def new_image():
 	form = ImageForm()
 	# if form validates after user submits
 	if form.validate_on_submit() and form.picture.data:
-		image_file = save_picture(form.picture.data)
+		image_file = save_picture(form.picture.data, 'user_uploads')
 		image = Image(image_file=image_file, owner=current_user)
 		db.session.add(image)
 		db.session.commit()
