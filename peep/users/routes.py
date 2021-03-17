@@ -4,7 +4,9 @@ from peep import db, bcrypt
 from peep.models import User, Post, Image
 from peep.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, 
                                    RequestResetForm, ResetPasswordForm)
-from peep.users.utils import save_picture, send_reset_email
+from peep.users.utils import send_reset_email
+from peep.images.utils import save_picture
+
 
 
 users = Blueprint('users', __name__)
