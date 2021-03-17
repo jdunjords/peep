@@ -1,11 +1,21 @@
 # TODO
 - new db table for post images
 - multiple images in posts
-- email verification when registering new account
-- MySQL
+- delete old user profile pic when they update the new one
+- delete post pic (if exists) when user deletes a post
 - like button
+	- adds to new folder on "My Images"?
 - comments
+	- new database table 'Comment'
+		- PK as usual
+		- FK to post.id
+		- FK to user.id	
+- email verification when registering new account
+- Paginate comments
+- option to delete account
 - model optimization
+	- find a pre-trained model?
+- bird info page after classification?
 
 # Usage
 	- python run.py
