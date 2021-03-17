@@ -22,14 +22,14 @@ def model_classify(img_path):
 	return "Model prediction: " + repr(predicted_label)
 
 # TODO do we need to check for collisions before saving??
-def save_picture(form_picture):
+def save_picture(form_picture, folder_name):
 	# create random 8-byte hex
 	random_hex = secrets.token_hex(8)
 	# throw away filename return with _
 	_, f_ext = os.path.splitext(form_picture.filename)
 	picture_fn = random_hex + f_ext
 	picture_path = os.path.join(current_app.root_path, 'static', \
-		                        'user_uploads', picture_fn)
+		                        folder_name, picture_fn)
 	img = Image.open(form_picture)
 	img.save(picture_path)
 	return picture_fn

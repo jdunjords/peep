@@ -16,7 +16,7 @@ def new_post():
 	form = PostForm()
 	if form.validate_on_submit():
 		if form.picture.data:
-			image_fn = save_picture(form.picture.data)
+			image_fn = save_picture(form.picture.data, 'post_pics')
 			image = Image(image_file=image_fn, owner=current_user)
 			db.session.add(image)
 			db.session.commit()
@@ -49,7 +49,7 @@ def update_post(post_id):
 	form = PostForm()
 	if form.validate_on_submit():
 		if form.picture.data:
-			image_fn = save_picture(form.picture.data)
+			image_fn = save_picture(form.picture.data, 'post_pics')
 			image = Image(image_file=image_fn, owner=current_user)
 			db.session.add(image)
 			post.image_file = image_fn
