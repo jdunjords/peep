@@ -10,6 +10,14 @@
 		- PK as usual
 		- FK to post.id
 		- FK to user.id	
+	- new CommentForm
+	- new routes for:
+		- adding comments
+		- updating comments
+		- deleting comments
+	- updating templates
+		- loop through all comments
+			- display them vertically ascending (oldest first)
 - email verification when registering new account
 - Paginate comments
 - option to delete account
