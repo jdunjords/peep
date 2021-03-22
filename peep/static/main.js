@@ -1,3 +1,0 @@
-function favButton() {
-    alert("clicked")
-};
