@@ -168,7 +168,6 @@ body {
   .button-style{
     height: 40px;
     width: 200px;
-    padding: 20px;
     background: rgba(204, 204, 204, 0.5);
     position: absolute;
   }
