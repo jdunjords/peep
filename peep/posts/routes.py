@@ -2,9 +2,9 @@ from flask import (Blueprint, render_template, url_for,
                    flash, redirect, request, abort)
 from flask_login import current_user, login_required
 from peep import db
-from peep.models import Post, Image
+from peep.models import Post,PostImage
 from peep.posts.forms import PostForm
-from peep.images.utils import save_picture
+from peep.images.utils import save_picture, delete_picture
 import os
 
 posts = Blueprint('posts', __name__)
@@ -17,7 +17,7 @@ def new_post():
 	if form.validate_on_submit():
 		if form.picture.data:
 			image_fn = save_picture(form.picture.data, 'post_pics')
-			image = Image(image_file=image_fn, owner=current_user)
+			image = PostImage(image_file=image_fn, owner=current_user)
 			db.session.add(image)
 			db.session.commit()
 			post = Post(title=form.title.data, content=form.content.data, 
@@ -50,7 +50,7 @@ def update_post(post_id):
 	if form.validate_on_submit():
 		if form.picture.data:
 			image_fn = save_picture(form.picture.data, 'post_pics')
-			image = Image(image_file=image_fn, owner=current_user)
+			image = PostImage(image_file=image_fn, owner=current_user)
 			db.session.add(image)
 			post.image_file = image_fn
 		post.title = form.title.data
@@ -74,5 +74,8 @@ def delete_post(post_id):
 		abort(403)
 	db.session.delete(post)
 	db.session.commit()
+	if post.image_file != None:
+		delete_picture(post.image_file, "post_pics")
 	flash('Your post has been deleted!', 'success')
 	return redirect(url_for('main.home'))
+
