@@ -55,7 +55,7 @@ body {
   }
   
   a.article-title:hover {
-	color: #white;
+	color: white;
 	text-decoration: none;
   }
   
@@ -110,11 +110,10 @@ body {
   }
 
   .nav-link {
-    color: black;
+    color: #95f953;
   }
-
    a.nav-link:hover {
-   color: #95f953;;
+   color: white;
   }
   .identify-btn{
     background-color: black;
@@ -168,7 +167,6 @@ body {
   .button-style{
     height: 40px;
     width: 200px;
-    background: rgba(40, 40, 40, 0.8);
     position: absolute;
   }
   .col-lg {
@@ -194,10 +192,14 @@ body {
  .wrapper {
   display: grid;
   grid-template-columns: auto auto auto;
-  /* grid-template-rows: 250px 250px 250px 250px; */
  }
 
 .image-content{
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 20x;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  background-color: #333333;
+  height: 235px;
 }
