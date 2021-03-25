@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from peep import db
 from peep.models import Post,PostImage
 from peep.posts.forms import PostForm
-from peep.images.utils import save_picture
+from peep.images.utils import save_picture, delete_picture
 import os
 
 posts = Blueprint('posts', __name__)
@@ -74,8 +74,8 @@ def delete_post(post_id):
 		abort(403)
 	db.session.delete(post)
 	db.session.commit()
-	if post.image != none:
-		delete_post(post.image, "post_pics")
+	if post.image_file != None:
+		delete_picture(post.image_file, "post_pics")
 	flash('Your post has been deleted!', 'success')
 	return redirect(url_for('main.home'))
 
