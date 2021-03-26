@@ -35,8 +35,8 @@ def login():
 	form = LoginForm()
 	if form.validate_on_submit():
 		user = User.query.filter_by(email=form.email.data).first()
-		flash('user: ' + user.username, 'info')
 		if user and bcrypt.check_password_hash(user.password, form.password.data):
+		        flash('user: ' + user.username, 'info')
 			login_user(user, remember=form.remember.data)
 			next_page = request.args.get('next')
 			flash('login successful, trying to redirect...')
@@ -44,8 +44,6 @@ def login():
 			return redirect(next_page) if next_page else redirect(url_for('main.home'))
 		else:
 			flash('Login unsuccessful. Please check email and password.', 'danger')
-	else:
-		flash('form failed to validate...', 'danger')
 	return render_template("login.html", title="Login", form=form)
 
 
