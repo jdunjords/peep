@@ -30,21 +30,30 @@ def register():
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
+
+	# simply redirect if user already logged in
 	if current_user.is_authenticated:
 		return redirect(url_for('main.home'))
+
+	# otherwise, create a form and send it back
 	form = LoginForm()
+
+	# check that the form validates
 	if form.validate_on_submit():
+
+		# get user from db from their email
 		user = User.query.filter_by(email=form.email.data).first()
+
+		# check that user exists and hashed passwords match
 		if user and bcrypt.check_password_hash(user.password, form.password.data):
-			flash('user: ' + user.username, 'info')
 			login_user(user, remember=form.remember.data)
 			next_page = request.args.get('next')
 			session['user_id'] = user.id
-			flash('login successful, trying to redirect...')
 			# TODO next page needs to be validated to avoid open redirect vulnerability
 			return redirect(next_page) if next_page else redirect(url_for('main.home'))
 		else:
 			flash('Login unsuccessful. Please check email and password.', 'danger')
+	
 	return render_template("login.html", title="Login", form=form)
 
 
