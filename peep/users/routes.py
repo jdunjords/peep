@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, Blueprint, abort
+from flask import render_template, request, redirect, url_for, flash, Blueprint, abort,session
 from flask_login import login_user, current_user, logout_user, login_required
 from peep import db, bcrypt
 from peep.models import User, Post, Image
@@ -39,6 +39,7 @@ def login():
 			flash('user: ' + user.username, 'info')
 			login_user(user, remember=form.remember.data)
 			next_page = request.args.get('next')
+			session['user_id'] = user.id
 			flash('login successful, trying to redirect...')
 			# TODO next page needs to be validated to avoid open redirect vulnerability
 			return redirect(next_page) if next_page else redirect(url_for('main.home'))

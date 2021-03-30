@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+	<form action="/comment_post" method="post" class="content-section">
+		<!-- action="" means post form to same route we're currently on -->
+        <div hidden="hidden"><span>post_id:</span><span><input name="post_id" id="post_id" type="text" value="{{ post_id }}"></span></div>
+        <div style="color:white;"><span>content:   </span><span><textarea name="content" id="content" type="text"></textarea></span></div>
+        <div><button id="submit">submit</button></div>
+	</form>
+
+{% endblock content %}

@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     {% for post in posts.items %}
+        {% set outer_loop = loop %}
         <article class="media content-section">
 			<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" alt="">
           <div class="media-body">
@@ -12,12 +13,14 @@
 
 			{% if post.image_file %}
 			<p class="article-pic">
-				<img height='auto' width='550px' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
+				<img height='300' src="{{ url_for('static', filename='user_uploads/' + post.image_file) }}" alt="">
 			</p>
 			{% endif %}
+            {% for comment_child in list_all[outer_loop.index-1] %}
 
-            <p class="article-content">{{ post.content }}</p>
-            <button class = "comment-btn"> comment </button>
+                <div style="color:white;">An user said: {{ comment_child.content }}</div>
+            {% endfor %}
+            <button class = "comment-btn" data-post="{{ post.id }}"> comment </button>
           </div>
         </article>
     {% endfor %}
@@ -32,4 +35,10 @@
 			...
 		{% endif %}
 	{% endfor %}
+    <script>
+        $(".comment-btn").click(function () {
+
+            window.location.href = '/comment?post_id='+$(this).attr('data-post')
+        });
+    </script>
 {% endblock content %}
