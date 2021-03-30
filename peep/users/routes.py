@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash, Blueprint, abort,session
 from flask_login import login_user, current_user, logout_user, login_required
 from peep import db, bcrypt
-from peep.models import User, Post, Image
+from peep.models import User, Post, Image, Comment
 from peep.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, 
                                    RequestResetForm, ResetPasswordForm)
 from peep.users.utils import send_reset_email
@@ -67,13 +67,16 @@ def account():
 		current_user.email = form.email.data
 		db.session.commit()
 		flash('Your account has been updated', 'success')
-		return redirect(url_for('users.account')) # this avoids the "resend form" alert
+		# this avoids the "resend form" alert
+		return redirect(url_for('users.account'))
 	# populate form fields with users current data
 	elif request.method == 'GET':
 		form.username.data = current_user.username
 		form.email.data = current_user.email
-	image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-	return render_template('account.html', title='Account', image_file=image_file, form=form)
+	image_file = url_for('static', filename='profile_pics/' + \
+						 current_user.image_file)
+	return render_template('account.html', title='Account', 
+							image_file=image_file, form=form)
 
 
 @users.route('/user/<string:username>/posts')
@@ -84,7 +87,16 @@ def user_posts(username):
 	posts = Post.query.filter_by(author=user)\
 		.order_by(Post.date_posted.desc())\
 		.paginate(page=page, per_page=5)
-	return render_template('user_posts.html', posts=posts, user=user)
+
+	# create a list of lists that contains all comments for all posts
+	list_all = []
+	for post in posts.items:
+		post_comments = Comment.query.filter_by(post_id=post.id).all()
+		list_all.append(post_comments)
+	
+	return render_template('user_posts.html', posts=posts, 
+							list_all=list_all, user=user)
+
 
 @users.route('/user/<string:username>/images')
 def user_images(username):
@@ -95,6 +107,7 @@ def user_images(username):
 	images = Image.query.filter_by(owner=user)\
 		.order_by(Image.date_uploaded.desc()).all()
 	return render_template('user_images.html', images=images, user=user)
+
 
 @users.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
