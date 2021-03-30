@@ -47,3 +47,9 @@ def classify_bird(image_id):
 	image = Image.query.get_or_404(image_id)
 	flash(model_classify(image.image_file), 'info')
 	return redirect(url_for('users.user_images', username=image.owner.username))
+
+@images.route('/favorite-image/<int:image_id>')
+def favorite_image(image_id):
+	image = Image.query.get_or_404(image_id)
+	flash('Image has been favorited!', 'success')
+	return redirect(url_for('users.user_images', username=image.owner.username))

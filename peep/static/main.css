@@ -205,3 +205,20 @@ body {
   width: 220px;
   align-content: center;
 }
+
+/* media query
+@media screen and (min-width: 600px){
+  .user-image {
+    width: 150px;
+  }
+}
+@media screen and (min-width: 800px){
+  .user-image {
+    width: 200px;
+  }
+}
+@media screen and (max-width: 1000px) and (min-width: 800px) {
+  .user-image {
+    width: 10px;
+  }
+} */
