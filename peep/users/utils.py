@@ -12,7 +12,7 @@ def save_picture(form_picture):
 	random_hex = secrets.token_hex(8)
 	# throw away filename return
 	_, f_ext = os.path.splitext(form_picture.filename)
-	picture_fn = random_hex + f_ext
+	picture_fn = random_hex + f_ext.lower()
 	picture_path = os.path.join(current_app.root_path, 'static', 'profile_pics', picture_fn)
 	
 	# TODO needs resize option to maintain proportions!
