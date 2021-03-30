@@ -14,12 +14,22 @@
 			{% endif %}
 		</div>
 		<h2 class="article-title">{{ post.title }}</h2>
+		<p class="article-content">{{ post.content }}</p>
 		{% if post.image_file %}
 		<p class="article-pic">
 			<img height='auto'width='550px' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
 		</p>
 		{% endif %}
-		<p class="article-content">{{ post.content }}</p>
+		{% for comment in comments %}
+                <div style="color:white;">
+					<a href="{{ url_for('users.user_posts', username=comment.author.username) }}">
+						{{ comment.author.username }}
+					</a>
+					: {{ comment.content }}
+					<small class="text-muted">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+				</div>
+		{% endfor %}
+		<a class="btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>
 		</div>
 	</article>
 	<!-- Modal -->

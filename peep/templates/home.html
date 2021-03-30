@@ -11,16 +11,22 @@
             </div>
             <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
 
+			<p class="article-content">{{ post.content }}</p>
 			{% if post.image_file %}
 			<p class="article-pic">
-				<img height='300' src="{{ url_for('static', filename='user_uploads/' + post.image_file) }}" alt="">
+				<img height='300' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
 			</p>
 			{% endif %}
-            {% for comment_child in list_all[outer_loop.index-1] %}
-
-                <div style="color:white;">An user said: {{ comment_child.content }}</div>
+            {% for comment in list_all[outer_loop.index-1] %}
+                <div style="color:white;">
+					<a href="{{ url_for('users.user_posts', username=comment.author.username) }}">
+						{{ comment.author.username }}
+					</a>
+					: {{ comment.content }}
+					<small class="text-muted">{{ comment.date_commented.strftime('%Y-%m-%d') }}</small>
+				</div>
             {% endfor %}
-            <button class = "comment-btn" data-post="{{ post.id }}"> comment </button>
+			<a class="btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>
           </div>
         </article>
     {% endfor %}
@@ -35,10 +41,4 @@
 			...
 		{% endif %}
 	{% endfor %}
-    <script>
-        $(".comment-btn").click(function () {
-
-            window.location.href = '/comment?post_id='+$(this).attr('data-post')
-        });
-    </script>
 {% endblock content %}
