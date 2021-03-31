@@ -2,20 +2,31 @@
 {% block content %}
 	<h1 class="mb-3">Posts by {{ user.username }} ({{ posts.total }})</h1>
     {% for post in posts.items %}
+		{% set outer_loop = loop %}
         <article class="media content-section">
 			<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" alt="">
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d, %I:%M %p') }}</small>
             </div>
             <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+			<p class="article-content">{{ post.content }}</p>
 			{% if post.image_file %}
 			<p class="article-pic">
 				<img height='auto' width='550px' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="" class= "user-i">
 			</p>
 			{% endif %}
-            <p class="article-content">{{ post.content }}</p>
+            {% for comment in list_all[outer_loop.index-1] %}
+                <div style="color:white;">
+					<a href="{{ url_for('users.user_posts', username=comment.author.username) }}">
+						{{ comment.author.username }}
+					</a>
+					: {{ comment.content }}
+					<small class="text-muted">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+				</div>
+            {% endfor %}
+			<a class="btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>
           </div>
         </article>
     {% endfor %}
