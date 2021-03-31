@@ -20,18 +20,26 @@
 			<img height='auto'width='550px' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
 		</p>
 		{% endif %}
-		{% for comment in comments %}
-                <div style="color:white;">
-					<a href="{{ url_for('users.user_posts', username=comment.author.username) }}">
-						{{ comment.author.username }}
-					</a>
-					: {{ comment.content }}
-					<small class="text-muted">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
-				</div>
-		{% endfor %}
-		<a class="btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>
-		</div>
+	    </div>
 	</article>
+	<!-- comments -->
+	<div class="comment-section">
+	{% for comment in comments %}
+		<article class="media content-section">
+			<article style="color:white;" >
+				<a href="{{ url_for('users.user_posts', username=comment.author.username) }}">
+					{{ comment.author.username }} 
+				</a>
+				<small class="text-muted">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+				<br>
+				<p class = "article-content"> {{ comment.content }}</p>	
+			</article>
+		</article>
+	{% endfor %}
+	
+	<!-- reply button -->
+	<a class="reply-btn btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>
+	</div>
 	<!-- Modal -->
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">

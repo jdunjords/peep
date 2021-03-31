@@ -173,13 +173,15 @@ body {
     padding: 20px;
     }
 
-  .comment-btn {
+  .reply-btn {
     border-radius: 10px;
     background-color: black;
     color: white;
     border: none;
   }
-
+  .reply-btn:hover{
+    color: #95f953;
+  }
   legend{
     color: white;
   }
@@ -204,6 +206,10 @@ body {
   height: 235px;
   width: 220px;
   align-content: center;
+}
+
+.favorite-btn:hover{
+  color: #95f953;
 }
 
 /* media query

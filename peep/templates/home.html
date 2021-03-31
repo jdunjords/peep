@@ -17,7 +17,7 @@
 				<img height='300' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
 			</p>
 			{% endif %}
-            {% for comment in list_all[outer_loop.index-1] %}
+            <!-- {% for comment in list_all[outer_loop.index-1] %}
                 <div style="color:white;">
 					<a href="{{ url_for('users.user_posts', username=comment.author.username) }}">
 						{{ comment.author.username }}
@@ -25,8 +25,8 @@
 					: {{ comment.content }}
 					<small class="text-muted">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
 				</div>
-            {% endfor %}
-			<a class="btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>
+            {% endfor %} -->
+			<a class="reply-btn btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>
           </div>
         </article>
     {% endfor %}
