@@ -64,6 +64,7 @@ class Image(db.Model):
 	date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 	needs_review = db.Column(db.Boolean, nullable=False, default=False)
+	favorited = db.Column(db.Boolean, nullable=False, default=False) 
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):

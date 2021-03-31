@@ -117,15 +117,15 @@ def user_images(username):
 		.order_by(Image.date_uploaded.desc()).all()
 	return render_template('user_images.html', images=images, user=user)
 
-@users.route('/user/<string:username>/favorites/images')
-def user_fav_images(username):
+@users.route('/user/<string:username>/images/favorites')
+def user_images_fav(username):
 	user = User.query.filter_by(username=username).first_or_404()
 	# users can only view their own images
 	if user != current_user:
 		abort(403)
-	images = Image.query.filter_by(owner=user)\
+	images = Image.query.filter_by(owner=user , favorited=True)\
 		.order_by(Image.date_uploaded.desc()).all()
-	return render_template('fav_images.html', images=images, user=user)
+	return render_template('user_images_fav.html', images=images, user=user)
 
 
 @users.route('/reset_password', methods=['GET', 'POST'])

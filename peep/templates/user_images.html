@@ -24,10 +24,19 @@
 					{% if image.owner == current_user %}
 					<!-- Buttons -->
 					<div class = "button-style">
+						{% if image.favorited == False %}
 						<a type = "button" class="btn btn-sm m-1 favorite-btn" 
 						href = "{{url_for('images.favorite_image', image_id=image.id)}}">
 							 <span class = "material-icons">favorite_border</span> 
 					    </a>
+						{% endif %}
+						{% if image.favorited == True %}
+						<a type = "button" class="btn btn-sm m-1 favorite-btn" 
+						href = "{{url_for('images.unfavorite_image', image_id=image.id)}}">
+							 <span class = "material-icons">favorite</span> 
+						</a>
+						{% endif %}
+						
 						<a class="btn btn-sm m-1 mb-1 identify-btn" href="{{url_for('images.classify_bird', image_id=image.id)}}">Identify</a> <br>
 						<button type="button" class="btn btn-sm m-1 delete-btn" data-toggle="modal" data-target="#deleteModal{{image.id}}">
 							<span class = "material-icons">delete</span>

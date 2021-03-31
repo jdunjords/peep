@@ -51,5 +51,15 @@ def classify_bird(image_id):
 @images.route('/favorite-image/<int:image_id>')
 def favorite_image(image_id):
 	image = Image.query.get_or_404(image_id)
-	flash('Image has been favorited!', 'success')
-	return redirect(url_for('users.user_images', username=image.owner.username))
+	image.favorited = True
+	db.session.commit()
+	flash('Your image has been favorited', 'success')
+	return redirect(url_for('users.user_images_fav', username=image.owner.username))
+
+@images.route('/unfavorite_image/<int:image_id>')
+def unfavorite_image(image_id):
+	image = Image.query.get_or_404(image_id)
+	image.favorited = False
+	db.session.commit()
+	flash('Your image has been removed from favorites', 'success')
+	return redirect(url_for('users.user_images_fav', username=image.owner.username))
