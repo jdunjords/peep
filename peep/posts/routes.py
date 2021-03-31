@@ -2,8 +2,8 @@ from flask import (Blueprint, render_template, url_for,
                    flash, redirect, request, abort)
 from flask_login import current_user, login_required
 from peep import db
-from peep.models import Post,PostImage
-from peep.posts.forms import PostForm
+from peep.models import Post, PostImage, Comment
+from peep.posts.forms import PostForm, CommentForm
 from peep.images.utils import save_picture, delete_picture
 import os
 
@@ -35,8 +35,13 @@ def new_post():
 
 @posts.route('/post/<int:post_id>')
 def post(post_id):
+
+	# get all comments for the current post
+	comments = Comment.query.filter_by(post_id=post_id).all()
+
 	post = Post.query.get_or_404(post_id)
-	return render_template('post.html', title=post.title, post=post)
+	return render_template('post.html', comments=comments, 
+							title=post.title, post=post)
 
 
 @posts.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
@@ -72,10 +77,51 @@ def delete_post(post_id):
 	if post.author != current_user:
 		# HTTP response for a forbidden route
 		abort(403)
+
+	# delete all comments on the post to keep referential integrity
+	# post_comments = Comment.query.filter_by(post_id=post_id).all()
+	Comment.query.filter_by(post_id=post_id).delete()
+	# db.session.delete(post_comments)
+	# db.session.commit()
+
+	# now we can safely delete the post
 	db.session.delete(post)
 	db.session.commit()
+
+	# delete post pictures if necessary
 	if post.image_file != None:
 		delete_picture(post.image_file, "post_pics")
 	flash('Your post has been deleted!', 'success')
 	return redirect(url_for('main.home'))
 
+
+@posts.route('/comment/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def comment(post_id):
+
+	# get the current user's id so we know who wrote the comment
+	user_id = current_user.id
+
+	# create a comment form to either send or validate
+	form = CommentForm()
+
+	# check that the form validates (i.e., comment has content)
+	if form.validate_on_submit():
+
+		# create new comment, attach it to current user and the post
+		# that it's replying to
+		comment = Comment(post_id=post_id, user_id=user_id,
+				   content=form.content.data)
+		db.session.add(comment)
+		db.session.commit()
+
+		# redirect to the page for the post replied to
+		return redirect(url_for("posts.post", post_id=post_id))
+
+	# get the author of the post for display purposes
+	post_author = Post.query.filter_by(id=post_id).first().author.username
+
+	# render comment page
+	return render_template("comment.html", form=form, 
+							legend=f"Reply to {post_author}", 
+							post_id=post_id)
