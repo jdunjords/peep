@@ -6,6 +6,12 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	<!-- favicon  -->
+	<link rel="icon" 
+      type="image/svg+xml" 
+      href="/static/design-images/peep-favicon.svg">
+	
+
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -73,7 +79,8 @@
 				<div class="content-section">
 					<h3>Actions</h3>
 					<ul class="list-group">
-							<a class="nav-item nav-link actions" href="{{ url_for('users.user_images', username=current_user.username) }}"> My Images</a> 
+							<a class="nav-item nav-link actions" href="{{ url_for('users.user_images', username=current_user.username) }}"> My Images</a>
+							<a class="nav-item nav-link actions" href="{{ url_for('users.user_images_fav', username=current_user.username) }}"> Favorites  </a>
 							<a class="nav-item nav-link actions" href="{{ url_for('users.user_posts', username=current_user.username) }}"> My Posts</a>
 							<a class="nav-item nav-link actions " href="{{ url_for('images.new_image') }}"> Upload Image</a>
 							<a class="nav-item nav-link actions" href="{{ url_for('posts.new_post') }}"> Create a Post</a>

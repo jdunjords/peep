@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class="mb-3">{{ user.username }}'s Favorite Images</h1>
+
+    <div class = "wrapper"> 
+
+        <!-- Image loop -->
+        {% for image in images %}
+        <div class = 'image-content'>
+            <a href = "{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
+               class = "fancybox" data-fancybox = "gallery1">
+                <img
+                class=""
+                style="height: 100%;
+                width: 100%;
+                height: 180px;
+                width: 200px;
+                object-fit: cover;
+                "
+                src="{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
+                alt="">	
+            </a>
+            
+            {% if image.owner == current_user %}
+            <!-- Buttons -->
+            <div class = "button-style">
+                <a type = "button" class="btn btn-sm m-1 favorite-btn" 
+                href = "{{url_for('images.unfavorite_image', image_id=image.id)}}">
+                     <span class = "material-icons">favorite</span> 
+                </a>
+                <a class="btn btn-sm m-1 mb-1 identify-btn" href="{{url_for('images.classify_bird', image_id=image.id)}}">Identify</a> <br>
+                <button type="button" class="btn btn-sm m-1 delete-btn" data-toggle="modal" data-target="#deleteModal{{image.id}}">
+                    <span class = "material-icons">delete</span>
+                </button>
+            </div>
+            
+        </div>
+              <!-- Modal -->
+     <div class="modal fade" id="deleteModal{{image.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Image?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{{ url_for('images.delete_image', username=current_user.username, image_id=image.id) }}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endfor %}
+</div>
+
+{% endblock content %}
