@@ -14,7 +14,7 @@
 			<p class="article-content">{{ post.content }}</p>
 			{% if post.image_file %}
 			<p class="article-pic">
-				<img height='auto' width='550px' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="" class= "user-i">
+				<img height='auto' width='550px' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
 			</p>
 			{% endif %}
             {% for comment in list_all[outer_loop.index-1] %}
