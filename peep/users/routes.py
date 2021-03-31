@@ -117,6 +117,7 @@ def user_images(username):
 		.order_by(Image.date_uploaded.desc()).all()
 	return render_template('user_images.html', images=images, user=user)
 
+
 @users.route('/user/<string:username>/images/favorites')
 def user_images_fav(username):
 	user = User.query.filter_by(username=username).first_or_404()
