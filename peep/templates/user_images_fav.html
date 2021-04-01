@@ -20,6 +20,8 @@
                 src="{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
                 alt="">	
             </a>
+            <small class="text-muted">{{ image.date_uploaded.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+					
             
             {% if image.owner == current_user %}
             <!-- Buttons -->
