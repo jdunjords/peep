@@ -61,6 +61,7 @@ body {
   
   .article-content {
 	white-space: pre-line;
+  word-break: break-word;
   }
 
   a.mr-2 {

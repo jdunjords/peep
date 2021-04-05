@@ -34,7 +34,7 @@
 
 	<h1> Comments </h1>
 	<!-- comments -->
-	<!-- {% for comment in comments %}
+	{% for comment in comments %}
 		<article class="media content-section">
 			<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
 			<div style="color:white;" class="media-body">
@@ -46,8 +46,8 @@
 				</div>
 				<p class = "article-content"> {{ comment.content }}</p>	
 
-				dropdown buttons for comments -->
-				<!-- {% if post.author == current_user %}
+				<!-- dropdown buttons for comments --> 
+				 {% if post.author == current_user %}
 				<div class="dropdown">
 					<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span class="material-icons"> more_horiz</span>
@@ -61,7 +61,7 @@
 				{% endif %} 
 			</div>
 		</article>
-		{% endfor %} -->
+		{% endfor %}
 
 
 	<!-- Modal -->
