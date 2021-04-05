@@ -125,3 +125,28 @@ def comment(post_id):
 	return render_template("comment.html", form=form, 
 							legend=f"Reply to {post_author}", 
 							post_id=post_id)
+
+# create delete comment function
+@posts.route('/post/<int:post_id>/delete', methods=['POST'])
+@login_required
+def delete_comment(comment_id):
+	comment = Comment.query.get_or_404(id)
+	if comment.author != current_user:
+		# HTTP response for a forbidden route
+		abort(403)
+
+	# # delete all comments on the post to keep referential integrity
+	# # post_comments = Comment.query.filter_by(post_id=post_id).all()
+	# Comment.query.filter_by(post_id=post_id).delete()
+	# # db.session.delete(post_comments)
+	# # db.session.commit()
+
+	# # now we can safely delete the post
+	# db.session.delete(post)
+	# db.session.commit()
+
+	# delete the comment
+	# commit to db
+
+	flash('Your comment has been deleted!', 'success')
+	return redirect(url_for('posts.post', post_id=post.id))
