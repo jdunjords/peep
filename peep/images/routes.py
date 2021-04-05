@@ -46,6 +46,8 @@ def delete_image(username, image_id):
 @images.route('/classify-bird/<int:image_id>')
 def classify_bird(image_id):
 	image = Image.query.get_or_404(image_id)
+	image.identified = True
+	db.session.commit()
 	flash(model_classify(image.image_file), 'info')
 	return redirect(url_for('users.user_images', username=image.owner.username))
 
@@ -65,4 +67,20 @@ def unfavorite_image(image_id):
 	image.favorited = False
 	db.session.commit()
 	flash('Removed from favorites', 'success')
+	return redirect(url_for('users.user_images', username=image.owner.username))
+
+@images.route('/add_training_image/<int:image_id>')
+def add_training_image(image_id):
+	image = Image.query.get_or_404(image_id)
+	image.submitForTraining = True
+	db.session.commit()
+	flash('Added to training images!', 'success')
+	return redirect(url_for('users.user_images', username=image.owner.username))
+
+@images.route('/remove_training_image/<int:image_id>')
+def remove_training_image(image_id):
+	image = Image.query.get_or_404(image_id)
+	image.submitForTraining = False
+	db.session.commit()
+	flash('Removed from training images!', 'success')
 	return redirect(url_for('users.user_images', username=image.owner.username))

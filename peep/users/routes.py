@@ -128,6 +128,26 @@ def user_images_fav(username):
 		.order_by(Image.date_uploaded.desc()).all()
 	return render_template('user_images_fav.html', images=images, user=user)
 
+@users.route('/user/<string:username>/images/identified')
+def user_images_identified(username):
+	user = User.query.filter_by(username=username).first_or_404()
+	# users can only view their own images
+	if user != current_user:
+		abort(403)
+	images = Image.query.filter_by(owner=user , identified=True)\
+		.order_by(Image.date_uploaded.desc()).all()
+	return render_template('user_images_identified.html', images=images, user=user)
+
+@users.route('/user/<string:username>/images/training')
+def user_images_training(username):
+	user = User.query.filter_by(username=username).first_or_404()
+	# users can only view their own images
+	if user != current_user:
+		abort(403)
+	images = Image.query.filter_by(owner=user , submitForTraining=True)\
+		.order_by(Image.date_uploaded.desc()).all()
+	return render_template('user_images_training.html', images=images, user=user)
+
 
 @users.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():

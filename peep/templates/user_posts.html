@@ -14,7 +14,7 @@
 			<p class="article-content">{{ post.content }}</p>
 			{% if post.image_file %}
 			<p class="article-pic">
-				<img height='auto' width='550px' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
+				<img height='75%'width='75%' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
 			</p>
 			{% endif %}
 			<a class="reply-btn btn" href="{{ url_for('posts.post', post_id=post.id) }}">View Comments</a>

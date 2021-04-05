@@ -90,7 +90,13 @@
 				<div class = "content-section"> 
 					<h3> Image Folders</h3>
 					<ul class="list-group">
-						<a class="nav-item nav-link actions" href="{{ url_for('users.user_images_fav', username=current_user.username) }}"> Favorites  </a>
+						<a class="nav-item nav-link actions" href="{{ url_for('users.user_images', username=current_user.username) }}"> All Images</a>
+						<a class="nav-item nav-link actions" 
+						   href="{{ url_for('users.user_images_fav', username=current_user.username) }}"> Favorites  </a>
+						<a class="nav-item nav-link actions" 
+						   href="{{ url_for('users.user_images_identified', username=current_user.username) }}"> Identified Birds  </a>
+						<a class="nav-item nav-link actions" 
+						   href="{{ url_for('users.user_images_training', username=current_user.username) }}"> Training Images </a>
 				</ul>
 				</div>
 				{% endif %}

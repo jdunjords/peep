@@ -65,6 +65,8 @@ class Image(db.Model):
 	image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 	needs_review = db.Column(db.Boolean, nullable=False, default=False)
 	favorited = db.Column(db.Boolean, nullable=False, default=False) 
+	identified = db.Column(db.Boolean, nullable=False, default=False)
+	submitForTraining = db.Column(db.Boolean, nullable=False, default=False) 
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):

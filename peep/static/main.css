@@ -136,27 +136,6 @@ body {
   a.mr-2:hover{
     color: white;
   }
-  .delete-btn{
-    background-color: red;
-    position: absolute;
-    right: 0%;
-    bottom: 0%;
-    height: 30px;
-    width: 40px;
-    text-align: center;
-    color: white;
-  }
-  .favorite-btn{
-    background-color: black;
-    position: absolute;
-    bottom: 0%;
-    left: 0%;
-    height: 30px;
-    width: 40px;
-    text-align: center;
-    color: white;
-  }
-
   .mb-3{
     color: #fffaf0;
   }
@@ -219,14 +198,16 @@ body {
   width: 5%;
 }
 
-.dropdown{
-  float: right;
+#imageDropdown{
+  position: absolute;
+  right: 0%;
 }
 .dropdown-btn{
   background-color:black;
   border: none;
   color: white;
   border-radius: 10px;
+  float: right;
 }
 .delete-comment{
   background-color: red;
@@ -244,6 +225,8 @@ body {
 .dropdown-item{
 text-decoration: none;
 }
+
+
 /* media query
 @media screen and (min-width: 600px){
   .user-image {
