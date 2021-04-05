@@ -8,10 +8,10 @@
 				{% for image in images %}
 				<div class = 'image-content'>
 					<a href = "{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
-					   class = "fancybox" data-fancybox = "gallery1">
-						<img
-						class=""
-						style="height: 100%;
+					class = "fancybox" data-fancybox = "gallery1">
+					<img
+					class=""
+					style="height: 100%;
 						width: 100%;
 						height: 180px;
 						width: 200px;
@@ -20,30 +20,53 @@
 						src="{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
 						alt="">	
 					</a>
+					<!-- time stamp -->
+					<small class="text-muted">{{ image.date_uploaded.strftime('%Y-%m-%d, %I:%M %p') }}</small>
 					
-					{% if image.owner == current_user %}
+
 					<!-- Buttons -->
+					{% if image.owner == current_user %}
 					<div class = "button-style">
-						{% if image.favorited == False %}
-						<a type = "button" class="btn btn-sm m-1 favorite-btn" 
-						href = "{{url_for('images.favorite_image', image_id=image.id)}}">
-							 <span class = "material-icons">favorite_border</span> 
-					    </a>
-						{% endif %}
-						{% if image.favorited == True %}
-						<a type = "button" class="btn btn-sm m-1 favorite-btn" 
-						href = "{{url_for('images.unfavorite_image', image_id=image.id)}}">
-							 <span class = "material-icons">favorite</span> 
-						</a>
-						{% endif %}
-						
-						<a class="btn btn-sm m-1 mb-1 identify-btn" href="{{url_for('images.classify_bird', image_id=image.id)}}">Identify</a> <br>
-						<button type="button" class="btn btn-sm m-1 delete-btn" data-toggle="modal" data-target="#deleteModal{{image.id}}">
-							<span class = "material-icons">delete</span>
-						</button>
-					</div>
-					
+						<!-- dropdown buttons -->
+						<div class="dropdown">
+							<button class = "dropdown-btn" type="button" id="imageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="material-icons"> more_horiz</span>
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" href="{{url_for('images.classify_bird', image_id=image.id)}}">
+									Identify My Bird	
+								</a>
+								{% if image.favorited == False %}
+									<a class="dropdown-item" 
+									href = "{{url_for('images.favorite_image', image_id=image.id)}}">
+										Add to Favorites
+									</a>
+								{% else %}
+									<a class="dropdown-item" 
+									href = "{{url_for('images.unfavorite_image', image_id=image.id)}}">
+										Remove from Favorites
+									</a>
+								{% endif %}
+								{% if image.submitForTraining == False %}
+								<a class="dropdown-item" 
+									href = "{{url_for('images.add_training_image', image_id=image.id)}}">
+									Add to Training Images
+								</a>
+								{% else %}
+								<a class="dropdown-item" 
+									href = "{{url_for('images.remove_training_image', image_id=image.id)}}">
+										Remove from Training Images
+								</a>
+								{% endif %}
+
+								<a class="dropdown-item" style = "color:red" data-toggle="modal" data-target="#deleteModal{{image.id}}">
+									Delete Image
+								</a> 
+							</div>
+						</div>				
+					</div>				
 				</div>
+
 					  <!-- Modal -->
 			 <div class="modal fade" id="deleteModal{{image.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 			   <div class="modal-dialog" role="document">
@@ -65,8 +88,8 @@
 			</div>
 		{% endif %}
 		{% endfor %}
-	</div>
-
-	
 		
-		{% endblock content %}
+	</div>
+	<!-- paginate -->
+
+{% endblock content %}

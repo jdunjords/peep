@@ -36,7 +36,8 @@
 	<header class="site-header">
 		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 			<div class="container">
-				<a class="navbar-brand mr-4" href="/"> pEEp</a>
+				<!-- peep icon -->
+				<img src="/static/design-images/peep-favicon.svg" class= "navbar-logo"></img>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
 					aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -79,15 +80,27 @@
 				<div class="content-section">
 					<h3>Actions</h3>
 					<ul class="list-group">
-							<a class="nav-item nav-link actions" href="{{ url_for('users.user_images', username=current_user.username) }}"> My Images</a>
-							<a class="nav-item nav-link actions" href="{{ url_for('users.user_images_fav', username=current_user.username) }}"> Favorites  </a>
-							<a class="nav-item nav-link actions" href="{{ url_for('users.user_posts', username=current_user.username) }}"> My Posts</a>
 							<a class="nav-item nav-link actions " href="{{ url_for('images.new_image') }}"> Upload Image</a>
 							<a class="nav-item nav-link actions" href="{{ url_for('posts.new_post') }}"> Create a Post</a>
+							<a class="nav-item nav-link actions" href="{{ url_for('users.user_posts', username=current_user.username) }}"> View My Posts</a>
+							<a class="nav-item nav-link actions" href="{{ url_for('users.user_images', username=current_user.username) }}"> View My Images</a>
 					</ul>
 					</p>
 				</div>
+				<div class = "content-section"> 
+					<h3> Image Folders</h3>
+					<ul class="list-group">
+						<a class="nav-item nav-link actions" href="{{ url_for('users.user_images', username=current_user.username) }}"> All Images</a>
+						<a class="nav-item nav-link actions" 
+						   href="{{ url_for('users.user_images_fav', username=current_user.username) }}"> Favorites  </a>
+						<a class="nav-item nav-link actions" 
+						   href="{{ url_for('users.user_images_identified', username=current_user.username) }}"> Identified Birds  </a>
+						<a class="nav-item nav-link actions" 
+						   href="{{ url_for('users.user_images_training', username=current_user.username) }}"> Training Images </a>
+				</ul>
+				</div>
 				{% endif %}
+				
 			</div>
 		</div>
 	</main>

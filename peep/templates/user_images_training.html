@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1 class="mb-3">{{ user.username }}'s Favorite Images</h1>
+    <h1 class="mb-3">{{ user.username }}'s Training Images</h1>
 
     <div class = "wrapper"> 
 
@@ -49,7 +49,7 @@
                         {% if image.submitForTraining == False %}
                         <a class="dropdown-item" 
                             href = "{{url_for('images.add_training_image', image_id=image.id)}}">
-                            Add to Training Images
+                                Add to Training Images
                         </a>
                         {% else %}
                         <a class="dropdown-item" 
@@ -63,7 +63,7 @@
                         </a> 
                     </div>
                 </div>				
-            </div>	
+            </div>		
             
         </div>
               <!-- Modal -->

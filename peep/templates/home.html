@@ -7,29 +7,58 @@
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+              <small class="text-white">{{ post.date_posted.strftime('%Y-%m-%d, %I:%M %p') }}</small>
             </div>
             <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
 
 			<p class="article-content">{{ post.content }}</p>
 			{% if post.image_file %}
 			<p class="article-pic">
-				<img height='300' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
+				<img height='75%'width='75%'  src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
 			</p>
 			{% endif %}
-            {% for comment in list_all[outer_loop.index-1] %}
-                <div style="color:white;">
-					<a href="{{ url_for('users.user_posts', username=comment.author.username) }}">
-						{{ comment.author.username }}
-					</a>
-					: {{ comment.content }}
-					<small class="text-muted">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+
+			<!-- buttons -->
+			<div class="dropdown">
+				<a class="reply-btn btn" href="{{ url_for('posts.post', post_id=post.id) }}">View Comments</a>
+				<a class="reply-btn btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>	
+				{% if post.author == current_user %}
+				<!-- dropdown buttons -->
+					<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="material-icons"> more_horiz</span>
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item"  href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
+					<a class="dropdown-item" style="color:red"  type="button" data-toggle="modal" data-target="#deleteModal"> Delete </a>
+					</div>
+					{% endif %}
 				</div>
-            {% endfor %}
-			<a class="btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>
+
           </div>
         </article>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+					<input type="submit" class="btn btn-danger" value="Delete">
+				</form>
+				</div>
+			</div>
+			</div>
+		</div>
     {% endfor %}
+
+		<!-- paginate -->
 	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
 		{% if page_num %}
 			{% if posts.page == page_num %}

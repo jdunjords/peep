@@ -61,10 +61,12 @@ body {
   
   .article-content {
 	white-space: pre-line;
+  word-break: break-word;
   }
 
   a.mr-2 {
     color: black;
+    text-decoration: none;
   }
   .article-img {
 	height: 65px;
@@ -134,27 +136,6 @@ body {
   a.mr-2:hover{
     color: white;
   }
-  .delete-btn{
-    background-color: red;
-    position: absolute;
-    right: 0%;
-    bottom: 0%;
-    height: 30px;
-    width: 40px;
-    text-align: center;
-    color: white;
-  }
-  .favorite-btn{
-    background-color: black;
-    position: absolute;
-    bottom: 0%;
-    left: 0%;
-    height: 30px;
-    width: 40px;
-    text-align: center;
-    color: white;
-  }
-
   .mb-3{
     color: #fffaf0;
   }
@@ -173,13 +154,15 @@ body {
     padding: 20px;
     }
 
-  .comment-btn {
+  .reply-btn {
     border-radius: 10px;
     background-color: black;
     color: white;
     border: none;
   }
-
+  .reply-btn:hover{
+    color: #95f953;
+  }
   legend{
     color: white;
   }
@@ -201,10 +184,48 @@ body {
   margin-right: 10px;
   padding: 10px;
   background-color: #333333;
-  height: 235px;
+  height: 260px;
   width: 220px;
   align-content: center;
 }
+
+.favorite-btn:hover{
+  color: #95f953;
+}
+
+.navbar-logo{
+  height: 5%;
+  width: 5%;
+}
+
+#imageDropdown{
+  position: absolute;
+  right: 0%;
+}
+.dropdown-btn{
+  background-color:black;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  float: right;
+}
+.delete-comment{
+  background-color: red;
+  height: auto;
+  width: auto;
+  align-content: center;
+  padding-top: 10px;
+  text-align: center;
+  color: white;
+}
+.dropdown-delete{
+ color: red;
+}
+
+.dropdown-item{
+text-decoration: none;
+}
+
 
 /* media query
 @media screen and (min-width: 600px){
