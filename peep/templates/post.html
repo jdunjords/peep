@@ -9,34 +9,32 @@
 		</div>
 		<h2 class="article-title">{{ post.title }}</h2>
 		<p class="article-content">{{ post.content }}</p>
-		{% if post.image_file %}
-		<p class="article-pic">
-			<img height='auto'width='550px' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
-		</p>
-		{% endif %}
+			{% if post.image_file %}
+			<p class="article-pic">
+				<img height='auto'width='550px' src="{{ url_for('static', filename='post_pics/' + post.image_file) }}" alt="">
+			</p>
+			{% endif %}
 			<!-- reply button -->
 		<a class="reply-btn btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>
 
-	{% if post.author == current_user %}
-
-	<!-- dropdown buttons -->
-	<div class="dropdown">
-		<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		  <span class="material-icons"> more_horiz</span>
-		</button>
-		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-		  <a class="dropdown-item"  href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
-		  <a class="dropdown-item" style="color:red"  type="button" data-toggle="modal" data-target="#deleteModal"> Delete </a>
-		</div>
-	  </div>
-
-	{% endif %}
+			{% if post.author == current_user %}
+			<!-- dropdown buttons -->
+			<div class="dropdown">
+				<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="material-icons"> more_horiz</span>
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item"  href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
+				<a class="dropdown-item" style="color:red"  type="button" data-toggle="modal" data-target="#deleteModal"> Delete </a>
+				</div>
+			</div>
+			{% endif %}
 	    </div>
 	</article>
+
 	<h1> Comments </h1>
 	<!-- comments -->
-	<div class="comment-section">
-	{% for comment in comments %}
+	<!-- {% for comment in comments %}
 		<article class="media content-section">
 			<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
 			<div style="color:white;" class="media-body">
@@ -48,7 +46,7 @@
 				</div>
 				<p class = "article-content"> {{ comment.content }}</p>	
 
-				<!-- dropdown buttons for comments -->
+				dropdown buttons for comments -->
 				<!-- {% if post.author == current_user %}
 				<div class="dropdown">
 					<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,11 +58,11 @@
 						</a>
 					</div>
 				</div>
-				{% endif %} -->
+				{% endif %} 
 			</div>
 		</article>
-	{% endfor %}
-	</div>
+		{% endfor %} -->
+
 
 	<!-- Modal -->
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
