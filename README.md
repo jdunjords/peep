@@ -1,29 +1,23 @@
 # TODO
-- new db table for post images
-- multiple images in posts
-- delete old user profile pic when they update the new one
-- delete post pic (if exists) when user deletes a post
-- like button
-	- adds to new folder on "My Images"?
-- comments
-	- new database table 'Comment'
-		- PK as usual
-		- FK to post.id
-		- FK to user.id	
-	- new CommentForm
-	- new routes for:
-		- adding comments
-		- updating comments
-		- deleting comments
-	- updating templates
-		- loop through all comments
-			- display them vertically ascending (oldest first)
-- email verification when registering new account
-- Paginate comments
-- option to delete account
-- model optimization
-	- find a pre-trained model?
-- bird info page after classification?
+1. allow user's to delete accounts
+	- make sure to delete all rows in all tables that refer to user's id (referential integrity)
+
+2. limit # of images a user can upload
+
+3. paginate images (3x3 grid on each page)
+
+4. comment on comment
+	- should suffice to only have 2 levels of comments
+	- shade the comment comments differently
+
+5. make comments scrollable
+
+6. multiple images in posts (from flask-wtf import MultipleFileField)
+	- make sure all images are deleted during post_delete
+
+7. delete old user profile pic when they update the new one
+
+8. email verification when registering new account
 
 # Usage
 	- python run.py
