@@ -1,13 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField
+from wtforms import StringField, SubmitField, TextAreaField, MultipleFileField
 from wtforms.validators import DataRequired
-from flask_wtf.file import FileField, FileAllowed
+from flask_wtf.file import FileAllowed
 
 
 class PostForm(FlaskForm):
 	title = StringField('Title', validators=[DataRequired()])
 	content = TextAreaField('Content', validators=[DataRequired()])
-	picture = FileField('Select Image', validators=[FileAllowed(['jpg', 'png'])])
+	picture = MultipleFileField('Select Image', validators=[FileAllowed(['jpg', 'png'])])
 	submit = SubmitField('Post')
 
 

@@ -15,14 +15,50 @@ images = Blueprint('images', __name__)
 @login_required
 def new_image():
 	form = ImageForm()
-	# if form validates after user submits
 	if form.validate_on_submit() and form.picture.data:
-		image_file = save_picture(form.picture.data, 'user_uploads')
-		image = Image(image_file=image_file, owner=current_user)
-		db.session.add(image)
-		db.session.commit()
-		flash('Your image has been uploaded!', 'success')
+
+		max_uploads = current_app.config['BASIC_MAX_UPLOAD']
+		new_upload_len = len(form.picture.data)
+		
+		# check to see if new upload will exceed free upload limit
+		if not current_user.is_premium_member and \
+			current_user.num_uploads + new_upload_len > max_uploads:
+			flash('New upload exceeds free upload limit for non-premium peeps.', 'info')
+			flash(f"{max_uploads-current_user.num_uploads}/{max_uploads} free uploads remaining.", 'info')
+			# redirect the user back to their images page
+			return redirect(url_for('users.user_images', username=current_user.username))
+
+		# otherwise, they still have enough free uploads, so update their upload count
+		current_user.num_uploads += new_upload_len
+		
+		# check if current user not premium peep and new upload exceeds free limit
+		if not current_user.is_premium_member and \
+			current_user.num_uploads + new_upload_len > max_uploads:
+			flash('New upload exceeds free uploads for non-premium peeps', 'info')
+		
+		# if the filename is empty, user didn't select any files
+		if request.files['picture'].filename == '':
+			flash('No file selected.', 'danger')
+			return redirect(request.url)
+		
+		# else, iterate through the list of picture uploads
+		for picture in form.picture.data:
+			image_file = save_picture(picture, 'user_uploads')
+			image = Image(image_file=image_file, owner=current_user)
+			db.session.add(image)
+			db.session.commit()
+		
+		# custom flash for single or multi upload
+		if new_upload_len > 1:
+			flash('Your images have been uploaded successfully!', 'success')
+		else:
+			flash('Your image has been uploaded successfully!', 'success')
+		flash(f"{max_uploads-current_user.num_uploads}/{max_uploads} free uploads remaining.", 'info')
+		
+		# redirect the user back to their images page
 		return redirect(url_for('users.user_images', username=current_user.username))
+	
+	# if GET request, render image upload page
 	return render_template('upload_image.html', title='Upload Image', 
                            form=form, legend='Upload Image')
 
@@ -36,6 +72,8 @@ def delete_image(username, image_id):
 		# HTTP response for a forbidden route
 		abort(403)
 	db.session.delete(image)
+	# update num_uploads of current user
+	current_user.num_uploads -= 1
 	db.session.commit()
 	full_image_path = os.path.join(current_app.root_path, 'static', \
 		                        'user_uploads', image.image_file)
@@ -74,7 +112,7 @@ def unfavorite_image(image_id):
 @images.route('/add_training_image/<int:image_id>')
 def add_training_image(image_id):
 	image = Image.query.get_or_404(image_id)
-	image.submitForTraining = True
+	image.submit_for_training = True
 	db.session.commit()
 	flash('Added to training images!', 'success')
 	return redirect(url_for('users.user_images', username=image.owner.username))
@@ -83,7 +121,7 @@ def add_training_image(image_id):
 @images.route('/remove_training_image/<int:image_id>')
 def remove_training_image(image_id):
 	image = Image.query.get_or_404(image_id)
-	image.submitForTraining = False
+	image.submit_for_training = False
 	db.session.commit()
 	flash('Removed from training images!', 'success')
 	return redirect(url_for('users.user_images', username=image.owner.username))

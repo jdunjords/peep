@@ -15,6 +15,10 @@ class User(db.Model, UserMixin):
 	email = db.Column(db.String(120), unique=True, nullable=False)
 	image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 	password = db.Column(db.String(60), nullable=False)
+	is_premium_member = db.Column(db.Boolean, nullable=False, default=False)
+	num_uploads = db.Column(db.Integer, nullable=False, default=0)
+	
+	# convenient relationships
 	post = db.relationship('Post', backref='author', lazy=True)
 	comment = db.relationship('Comment', backref='author', lazy=True)
 	image = db.relationship('Image', backref='owner', lazy=True)
@@ -65,7 +69,7 @@ class Image(db.Model):
 	needs_review = db.Column(db.Boolean, nullable=False, default=False)
 	favorited = db.Column(db.Boolean, nullable=False, default=False) 
 	identified = db.Column(db.Boolean, nullable=False, default=False)
-	submitForTraining = db.Column(db.Boolean, nullable=False, default=False) 
+	submit_for_training = db.Column(db.Boolean, nullable=False, default=False) 
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):
