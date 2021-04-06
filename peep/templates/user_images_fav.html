@@ -46,7 +46,7 @@
                                 Remove from Favorites
                             </a>
                         {% endif %}
-                        {% if image.submitForTraining == False %}
+                        {% if image.submit_for_training == False %}
                         <a class="dropdown-item" 
                             href = "{{url_for('images.add_training_image', image_id=image.id)}}">
                             Add to Training Images
