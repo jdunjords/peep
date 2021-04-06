@@ -15,3 +15,4 @@ class Config:
 	MAIL_USE_TLS = True
 	MAIL_USERNAME = config.get('MAIL_USER')
 	MAIL_PASSWORD = config.get('MAIL_PASS')
+	POST_PIC_CAP = 10

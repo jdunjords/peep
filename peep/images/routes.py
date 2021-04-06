@@ -27,6 +27,7 @@ def new_image():
                            form=form, legend='Upload Image')
 
 
+# TODO without verifying that the user is current_user, this could be hacked I think?
 @images.route('/user/<string:username>/delete/<int:image_id>', methods=['POST'])
 @login_required
 def delete_image(username, image_id):
@@ -69,6 +70,7 @@ def unfavorite_image(image_id):
 	flash('Removed from favorites', 'success')
 	return redirect(url_for('users.user_images', username=image.owner.username))
 
+
 @images.route('/add_training_image/<int:image_id>')
 def add_training_image(image_id):
 	image = Image.query.get_or_404(image_id)
@@ -76,6 +78,7 @@ def add_training_image(image_id):
 	db.session.commit()
 	flash('Added to training images!', 'success')
 	return redirect(url_for('users.user_images', username=image.owner.username))
+
 
 @images.route('/remove_training_image/<int:image_id>')
 def remove_training_image(image_id):

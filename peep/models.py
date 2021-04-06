@@ -42,7 +42,6 @@ class Post(db.Model):
 	title = db.Column(db.String(100), nullable=False)
 	date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	content = db.Column(db.Text, nullable=False)
-	image_file = db.Column(db.String(20), nullable=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 	def __repr__(self):
@@ -51,9 +50,9 @@ class Post(db.Model):
 # tablename: 'postimage'
 class PostImage(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	image_file = db.Column(db.String(20), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
 
 	def __repr__(self):
 		return f"PostImage('{self.id}', '{self.date_uploaded}', '{self.image_file}', '{self.user_id}')"

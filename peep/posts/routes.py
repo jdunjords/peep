@@ -7,6 +7,7 @@ from peep.posts.forms import PostForm, CommentForm
 from peep.images.utils import save_picture, delete_picture
 import os
 
+
 posts = Blueprint('posts', __name__)
 
 
@@ -38,6 +39,8 @@ def post(post_id):
 
 	# get all comments for the current post
 	comments = Comment.query.filter_by(post_id=post_id).all()
+
+	# get all images for the current post
 
 	post = Post.query.get_or_404(post_id)
 	return render_template('post.html', comments=comments, 
@@ -125,6 +128,7 @@ def comment(post_id):
 	return render_template("comment.html", form=form, 
 							legend=f"Reply to {post_author}", 
 							post_id=post_id)
+
 
 # create delete comment function
 @posts.route('/post/<int:post_id>/delete', methods=['POST'])
