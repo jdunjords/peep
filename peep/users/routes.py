@@ -5,8 +5,7 @@ from peep.models import User, Post, Image, Comment
 from peep.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, 
                                    RequestResetForm, ResetPasswordForm)
 from peep.users.utils import send_reset_email
-from peep.images.utils import save_picture
-
+from peep.images.utils import delete_picture, save_picture
 
 
 users = Blueprint('users', __name__)
@@ -128,6 +127,7 @@ def user_images_fav(username):
 		.order_by(Image.date_uploaded.desc()).all()
 	return render_template('user_images_fav.html', images=images, user=user)
 
+
 @users.route('/user/<string:username>/images/identified')
 def user_images_identified(username):
 	user = User.query.filter_by(username=username).first_or_404()
@@ -137,6 +137,7 @@ def user_images_identified(username):
 	images = Image.query.filter_by(owner=user , identified=True)\
 		.order_by(Image.date_uploaded.desc()).all()
 	return render_template('user_images_identified.html', images=images, user=user)
+
 
 @users.route('/user/<string:username>/images/training')
 def user_images_training(username):
@@ -178,3 +179,46 @@ def reset_token(token):
 		flash('Your password has been updated! You are now able to log in.', 'success')
 		return redirect(url_for('users.login'))
 	return render_template('reset_token.html', title='Reset Password', form=form)
+
+
+@users.route('/account/delete', methods=['GET', 'POST'])
+@login_required
+def delete_account():
+	
+	# save the current user and log them out
+	user = User.query.filter_by(id=current_user.id).first()
+	logout_user()
+
+	# delete all images
+	images = Image.query.filter_by(user_id=user.id).all()
+	for image in images:
+		delete_picture(image.image_file, 'user_uploads')
+		db.session.delete(image)
+
+	# delete all comments
+	comments = Comment.query.filter_by(user_id=user.id).all()
+	for comment in comments:
+		db.session.delete(comment)
+
+	# delete all post images
+	post_images = Image.query.filter_by(user_id=user.id).all()
+	for post_image in post_images:
+		delete_picture(post_image, 'post_pics')
+		db.session.delete(post_image)
+
+	# delete profile picture
+	if user.image_file != 'default.jpg':
+		delete_picture(user.image_file, 'profile_pics')
+
+	# delete all posts
+	posts = Post.query.filter_by(user_id=user.id).all()
+	for post in posts:
+		db.session.delete(post)
+
+	# delete user
+	db.session.delete(user)
+	db.session.commit()
+
+	flash("Your account has been deleted. We're sorry to see you go!", "success")
+
+	return redirect(url_for('main.home'))
