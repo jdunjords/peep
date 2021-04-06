@@ -145,7 +145,7 @@ def user_images_training(username):
 	# users can only view their own images
 	if user != current_user:
 		abort(403)
-	images = Image.query.filter_by(owner=user , submitForTraining=True)\
+	images = Image.query.filter_by(owner=user , submit_for_training=True)\
 		.order_by(Image.date_uploaded.desc()).all()
 	return render_template('user_images_training.html', images=images, user=user)
 
