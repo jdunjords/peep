@@ -4,71 +4,71 @@
 <h1 class="mb-3">{{ user.username }}'s Images</h1>
 		<div class = "wrapper"> 
 
-				<!-- Image loop -->
-				{% for image in images %}
-				<div class = 'image-content'>
-					<a href = "{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
-					class = "fancybox" data-fancybox = "gallery1">
-					<img
-					class=""
-					style="height: 100%;
-						width: 100%;
-						height: 180px;
-						width: 200px;
-						object-fit: cover;
-						"
-						src="{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
-						alt="">	
-					</a>
-					<!-- time stamp -->
-					<small class="text-muted">{{ image.date_uploaded.strftime('%Y-%m-%d, %I:%M %p') }}</small>
-					
+			<!-- Image loop -->
+			{% for image in images %}
+			<div class = 'image-content'>
+				<a href = "{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
+				class = "fancybox" data-fancybox = "gallery1">
+				<img
+				class=""
+				style="height: 100%;
+					width: 100%;
+					height: 180px;
+					width: 200px;
+					object-fit: cover;
+					"
+					src="{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
+					alt="">	
+				</a>
+				<!-- time stamp -->
+				<small class="text-muted">{{ image.date_uploaded.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+				
 
-					<!-- Buttons -->
-					{% if image.owner == current_user %}
-					<div class = "button-style">
-						<!-- dropdown buttons -->
-						<div class="dropdown">
-							<button class = "dropdown-btn" type="button" id="imageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="material-icons"> more_horiz</span>
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" href="{{url_for('images.classify_bird', image_id=image.id)}}">
-									Identify My Bird	
-								</a>
-								{% if image.favorited == False %}
-									<a class="dropdown-item" 
-									href = "{{url_for('images.favorite_image', image_id=image.id)}}">
-										Add to Favorites
-									</a>
-								{% else %}
-									<a class="dropdown-item" 
-									href = "{{url_for('images.unfavorite_image', image_id=image.id)}}">
-										Remove from Favorites
-									</a>
-								{% endif %}
-								{% if image.submit_for_training == False %}
+				<!-- Buttons -->
+				{% if image.owner == current_user %}
+				<div class = "button-style">
+					<!-- dropdown buttons -->
+					<div class="dropdown">
+						<button class = "dropdown-btn" type="button" id="imageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="material-icons"> more_horiz</span>
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="{{url_for('images.classify_bird', image_id=image.id)}}">
+								Identify My Bird	
+							</a>
+							{% if image.favorited == False %}
 								<a class="dropdown-item" 
-									href = "{{url_for('images.add_training_image', image_id=image.id)}}">
-									Add to Training Images
+								href = "{{url_for('images.favorite_image', image_id=image.id)}}">
+									Add to Favorites
 								</a>
-								{% else %}
+							{% else %}
 								<a class="dropdown-item" 
-									href = "{{url_for('images.remove_training_image', image_id=image.id)}}">
-										Remove from Training Images
+								href = "{{url_for('images.unfavorite_image', image_id=image.id)}}">
+									Remove from Favorites
 								</a>
-								{% endif %}
+							{% endif %}
+							{% if image.submit_for_training == False %}
+							<a class="dropdown-item" 
+								href = "{{url_for('images.add_training_image', image_id=image.id)}}">
+								Add to Training Images
+							</a>
+							{% else %}
+							<a class="dropdown-item" 
+								href = "{{url_for('images.remove_training_image', image_id=image.id)}}">
+									Remove from Training Images
+							</a>
+							{% endif %}
 
-								<a class="dropdown-item" style = "color:red" data-toggle="modal" data-target="#deleteModal{{image.id}}">
-									Delete Image
-								</a> 
-							</div>
-						</div>				
+							<a class="dropdown-item" style = "color:red" data-toggle="modal" data-target="#deleteModal{{image.id}}">
+								Delete Image
+							</a> 
+						</div>
 					</div>				
-				</div>
+				</div>				
+			</div>
 
-					  <!-- Modal -->
-			 <div class="modal fade" id="deleteModal{{image.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+			<!-- Modal -->
+			<div class="modal fade" id="deleteModal{{image.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 			   <div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
