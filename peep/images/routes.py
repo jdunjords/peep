@@ -63,6 +63,7 @@ def new_image():
                            form=form, legend='Upload Image')
 
 
+# TODO without verifying that the user is current_user, this could be hacked I think?
 @images.route('/user/<string:username>/delete/<int:image_id>', methods=['POST'])
 @login_required
 def delete_image(username, image_id):
