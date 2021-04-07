@@ -66,25 +66,46 @@ def post(post_id):
 @posts.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
+	
 	post = Post.query.get_or_404(post_id)
 	if post.author != current_user:
 		# HTTP response for a forbidden route
 		abort(403)
+	
 	form = PostForm()
 	if form.validate_on_submit():
-		if form.picture.data:
-			image_fn = save_picture(form.picture.data, 'post_pics')
-			image = PostImage(image_file=image_fn, owner=current_user)
-			db.session.add(image)
-			post.image_file = image_fn
+
+		# if the filename isn't empty, user selected some files to add
+		if request.files['picture'].filename != '':
+			num_current_pics = len(PostImage.query.filter_by(post_id=post_id).all())
+			num_new_pics = len(form.picture.data)
+
+			# check to see if the amount of new pics will exceed the picture limit on posts
+			if num_current_pics + num_new_pics > current_app.config['POST_PIC_LIMIT']:
+				flash('Newly added images exceeds image limit for this post', 'info')
+				return redirect(request.url)
+
+			# iterate through the list of picture uploads
+			for picture in form.picture.data:
+				image_file = save_picture(picture, 'post_pics')
+				post_image = PostImage(image_file=image_file, owner=current_user, post=post, \
+										post_id=post_id, user_id=current_user.id)
+				db.session.add(post_image)
+
+		# update the title and content fields
 		post.title = form.title.data
 		post.content = form.content.data
+		
+		# commit all of our changes
 		db.session.commit()
+
 		flash('Your post has been updated!', 'success')
 		return redirect(url_for('posts.post', post_id=post.id))
+	
 	elif request.method == 'GET':
 		form.title.data = post.title
 		form.content.data = post.content
+	
 	return render_template("create_post.html", title="Update Post", 
 							form=form, legend='Update Post')
 
