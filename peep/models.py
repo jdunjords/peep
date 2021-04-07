@@ -48,6 +48,9 @@ class Post(db.Model):
 	content = db.Column(db.Text, nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+	# create a relationship so each post image knows what post it refers to
+	post = db.relationship('PostImage', backref='post', lazy=True)
+
 	def __repr__(self):
 		return f"Post('{self.title}', '{self.date_posted}')"
 
@@ -59,7 +62,7 @@ class PostImage(db.Model):
 	post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
 
 	def __repr__(self):
-		return f"PostImage('{self.id}', '{self.date_uploaded}', '{self.image_file}', '{self.user_id}')"
+		return f"PostImage('{self.id}', '{self.image_file}', '{self.post_id}')"
 
 # tablename: 'image'
 class Image(db.Model):
