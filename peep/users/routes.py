@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash, Blueprint, abort,session
 from flask_login import login_user, current_user, logout_user, login_required
 from peep import db, bcrypt
-from peep.models import User, Post, Image, Comment
+from peep.models import User, Post, Image, Comment, PostImage
 from peep.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, 
                                    RequestResetForm, ResetPasswordForm)
 from peep.users.utils import send_reset_email
@@ -97,13 +97,17 @@ def user_posts(username):
 		.paginate(page=page, per_page=5)
 
 	# create a list of lists that contains all comments for all posts
-	list_all = []
+	# list_all = []
+	# for post in posts.items:
+	# 	post_comments = Comment.query.filter_by(post_id=post.id).all()
+	# 	list_all.append(post_comments)
+
+	post_images = []
 	for post in posts.items:
-		post_comments = Comment.query.filter_by(post_id=post.id).all()
-		list_all.append(post_comments)
+		images = PostImage.query.filter_by(post_id=post.id).all()
+		post_images.append(images)
 	
-	return render_template('user_posts.html', posts=posts, 
-							list_all=list_all, user=user)
+	return render_template('user_posts.html', posts=posts, user=user, post_images=post_images)
 
 
 @users.route('/user/<string:username>/images')
