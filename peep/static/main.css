@@ -226,6 +226,10 @@ body {
 text-decoration: none;
 }
 
+.dropdown{
+  padding: 10px;
+}
+
 
 /* media query
 @media screen and (min-width: 600px){
