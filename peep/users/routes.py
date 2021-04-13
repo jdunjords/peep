@@ -156,6 +156,9 @@ def user_images_training(username):
 
 @users.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
+	# if current_user.is_authenticated == True:
+	# 	flash('user authenticated', 'info')
+	# 	return redirect(url_for('users.login'))
 	form = RequestResetForm()
 	if form.validate_on_submit():
 		user = User.query.filter_by(email=form.email.data).first()

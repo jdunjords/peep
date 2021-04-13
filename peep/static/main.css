@@ -230,7 +230,10 @@ text-decoration: none;
   padding: 10px;
 }
 
-
+.anyClass {
+  height:300px;
+  overflow-y: scroll;
+}
 /* media query
 @media screen and (min-width: 600px){
   .user-image {
