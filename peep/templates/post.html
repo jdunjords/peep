@@ -67,35 +67,37 @@
 	</article>
 
 	<h1> Comments </h1>
-	<!-- comments -->
-	{% for comment in comments %}
-		<article class="media content-section">
-			<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
-			<div style="color:white;" class="media-body">
-				<div class="article-metadata">
-					<a class="mr-2" href="{{ url_for('users.user_posts', username=comment.author.username) }}">
-						{{ comment.author.username }} 
-					</a>
-					<small class="text-white">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
-				</div>
-				<p class = "article-content"> {{ comment.content }}</p>	
-
-				<!-- dropdown buttons for comments --> 
-				 <!-- {% if post.author == current_user %}
-				<div class="dropdown">
-					<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<span class="material-icons"> more_horiz</span>
-					</button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" style="color:red" data-toggle="modal" data-target="#deleteCommentModal">
-							Delete 
+	<div class="comment-content">
+		<!-- comments -->
+		{% for comment in comments %}
+			<article class="media content-section">
+				<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
+				<div style="color:white;" class="media-body">
+					<div class="article-metadata">
+						<a class="mr-2" href="{{ url_for('users.user_posts', username=comment.author.username) }}">
+							{{ comment.author.username }} 
 						</a>
+						<small class="text-white">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
 					</div>
-				</div>
-				{% endif %} 
-			</div> -->
-		</article>
-	{% endfor %}
+					<p class = "article-content"> {{ comment.content }}</p>	
+	
+					<!-- dropdown buttons for comments --> 
+					 <!-- {% if post.author == current_user %}
+					<div class="dropdown">
+						<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="material-icons"> more_horiz</span>
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" style="color:red" data-toggle="modal" data-target="#deleteCommentModal">
+								Delete 
+							</a>
+						</div>
+					</div>
+					{% endif %} 
+				</div> -->
+			</article>
+		{% endfor %}
+	</div>
 
 	<!-- Modal -->
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

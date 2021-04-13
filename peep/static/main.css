@@ -68,17 +68,30 @@ body {
     color: black;
     text-decoration: none;
   }
+
   .article-img {
 	height: 65px;
 	width: 65px;
 	margin-right: 16px;
   }
-  
-  .btn-info {
-    background-color: black;
-    border-color: black;
+
+  .btn-info{
+    background-color: #95f953;
+    color: black;
+    border-color: #95f953;
+    text-decoration: none;
   }
   .btn-info:hover{
+    background-color: #95f953;
+    border-color: black;
+    color: black;
+  }
+  .btn-outline-info {
+    background-color: black;
+    border-color: black;
+    color: #95f953;
+  }
+  .btn-outline-info:hover{
     background-color: #95f953;
     border-color:#95f953;
     color: black;
@@ -224,6 +237,12 @@ body {
 
 .dropdown-item{
 text-decoration: none;
+}
+.comment-content{
+  overflow-y: scroll;
+  height: 300px;
+  padding-bottom: 30px;
+  padding: 10px;
 }
 
 
