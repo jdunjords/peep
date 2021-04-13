@@ -5,7 +5,7 @@
 		<div class = "wrapper"> 
 
 			<!-- Image loop -->
-			{% for image in images %}
+			{% for image in images.items %}
 			<div class = 'image-content'>
 				<a href = "{{ url_for('static', filename='user_uploads/' + image.image_file) }}"
 				class = "fancybox" data-fancybox = "gallery1">
@@ -90,6 +90,18 @@
 		{% endfor %}
 		
 	</div>
+
 	<!-- paginate -->
+	{% for page_num in images.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+		{% if page_num %}
+			{% if images.page == page_num %}
+				<a class="btn btn-info mb-4" href="{{ url_for('users.user_images', username=current_user.username, page=page_num) }}">{{ page_num }}</a>
+			{% else %}
+				<a class="btn btn-outline-info mb-4" href="{{ url_for('users.user_images', username=current_user.username, page=page_num) }}">{{ page_num }}</a>
+			{% endif %}
+		{% else %}
+			...
+		{% endif %}
+	{% endfor %}
 
 {% endblock content %}
