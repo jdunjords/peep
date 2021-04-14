@@ -5,7 +5,6 @@ from peep import db
 from peep.models import Post, PostImage, Comment
 from peep.posts.forms import PostForm, CommentForm
 from peep.images.utils import save_picture, delete_picture
-import os
 
 
 posts = Blueprint('posts', __name__)
@@ -15,7 +14,7 @@ posts = Blueprint('posts', __name__)
 @login_required
 def new_post():
 	
-	form = PostForm()
+	form = PostForm(csrf_enabled=False)
 	if form.validate_on_submit():
 
 		# create the post and add it to the database
@@ -72,8 +71,13 @@ def update_post(post_id):
 		# HTTP response for a forbidden route
 		abort(403)
 	
-	form = PostForm()
+	form = PostForm(csrf_enabled=False)
 	if form.validate_on_submit():
+
+		# update the title and content fields to save changes before checking images
+		post.title = form.title.data
+		post.content = form.content.data
+		db.session.commit()
 
 		# if the filename isn't empty, user selected some files to add
 		if request.files['picture'].filename != '':
@@ -91,13 +95,9 @@ def update_post(post_id):
 				post_image = PostImage(image_file=image_file, owner=current_user, post=post, \
 										post_id=post_id, user_id=current_user.id)
 				db.session.add(post_image)
-
-		# update the title and content fields
-		post.title = form.title.data
-		post.content = form.content.data
 		
-		# commit all of our changes
-		db.session.commit()
+			# commit new post images
+			db.session.commit()
 
 		flash('Your post has been updated!', 'success')
 		return redirect(url_for('posts.post', post_id=post.id))
@@ -148,7 +148,7 @@ def comment(post_id):
 	user_id = current_user.id
 
 	# create a comment form to either send or validate
-	form = CommentForm()
+	form = CommentForm(csrf_enabled=False)
 
 	# check that the form validates (i.e., comment has content)
 	if form.validate_on_submit():

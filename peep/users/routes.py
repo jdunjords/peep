@@ -15,7 +15,7 @@ users = Blueprint('users', __name__)
 def register():
 	if current_user.is_authenticated:
 		return redirect(url_for('main.home'))
-	form = RegistrationForm()
+	form = RegistrationForm(csrf_enabled=False)
 	# check to see if the form validated correctly
 	if form.validate_on_submit():
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -29,13 +29,12 @@ def register():
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
-
 	# simply redirect if user already logged in
 	if current_user.is_authenticated:
 		return redirect(url_for('main.home'))
 
 	# otherwise, create a form and send it back
-	form = LoginForm()
+	form = LoginForm(csrf_enabled=False)
 
 	# check that the form validates
 	if form.validate_on_submit():
@@ -65,7 +64,7 @@ def logout():
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-	form = UpdateAccountForm()
+	form = UpdateAccountForm(csrf_enabled=False)
 	if form.validate_on_submit():
 		# TODO delete old profile pic when updating new one
 		if form.picture.data:
@@ -193,7 +192,7 @@ def reset_token(token):
 	if user is None:
 		flash('That is an invalid or expired token', 'warning')
 		return redirect(url_for('users.reset_request'))
-	form = ResetPasswordForm()
+	form = ResetPasswordForm(csrf_enabled=False)
 	if form.validate_on_submit():
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 		user.password = hashed_password
@@ -211,7 +210,7 @@ def delete_account():
 	user = User.query.filter_by(id=current_user.id).first()
 	logout_user()
 
-	# delete all images
+	# delete all user images
 	images = Image.query.filter_by(user_id=user.id).all()
 	for image in images:
 		delete_picture(image.image_file, 'user_uploads')
@@ -223,9 +222,9 @@ def delete_account():
 		db.session.delete(comment)
 
 	# delete all post images
-	post_images = Image.query.filter_by(user_id=user.id).all()
+	post_images = PostImage.query.filter_by(user_id=user.id).all()
 	for post_image in post_images:
-		delete_picture(post_image, 'post_pics')
+		delete_picture(post_image.image_file, 'post_pics')
 		db.session.delete(post_image)
 
 	# delete profile picture
