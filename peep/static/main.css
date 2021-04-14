@@ -74,11 +74,23 @@ body {
 	margin-right: 16px;
   }
   
-  .btn-info {
+  .btn-outline-info {
+    background-color: black;
+    border-color: black;
+    color: white;
+  }
+  .btn-info
+  {
+    background-color: #95f953;
+    border-color: #95f953;
+    color: black;
+  }
+  .btn-info:hover {
+    color: white;
     background-color: black;
     border-color: black;
   }
-  .btn-info:hover{
+  .btn-outline-info:hover{
     background-color: #95f953;
     border-color:#95f953;
     color: black;
@@ -230,9 +242,11 @@ text-decoration: none;
   padding: 10px;
 }
 
-.anyClass {
+.comment-section {
   height:300px;
   overflow-y: scroll;
+  padding: 10px;
+  padding-bottom: 30px;
 }
 /* media query
 @media screen and (min-width: 600px){
