@@ -112,11 +112,16 @@ def user_posts(username):
 @users.route('/user/<string:username>/images')
 def user_images(username):
 	user = User.query.filter_by(username=username).first_or_404()
+
 	# users can only view their own images
 	if user != current_user:
 		abort(403)
+
+	# get page, and paginate images
+	page = request.args.get('page', 1, type=int)
 	images = Image.query.filter_by(owner=user)\
-		.order_by(Image.date_uploaded.desc()).all()
+		.order_by(Image.date_uploaded.desc()).paginate(page=page, per_page=9)
+	
 	return render_template('user_images.html', images=images, user=user)
 
 
@@ -126,8 +131,12 @@ def user_images_fav(username):
 	# users can only view their own images
 	if user != current_user:
 		abort(403)
-	images = Image.query.filter_by(owner=user , favorited=True)\
-		.order_by(Image.date_uploaded.desc()).all()
+	
+	# get page, and paginate images
+	page = request.args.get('page', 1, type=int)
+	images = Image.query.filter_by(owner=user, favorited=True)\
+		.order_by(Image.date_uploaded.desc()).paginate(page=page, per_page=9)
+	
 	return render_template('user_images_fav.html', images=images, user=user)
 
 
@@ -137,8 +146,12 @@ def user_images_identified(username):
 	# users can only view their own images
 	if user != current_user:
 		abort(403)
-	images = Image.query.filter_by(owner=user , identified=True)\
-		.order_by(Image.date_uploaded.desc()).all()
+
+	# get page, and paginate images
+	page = request.args.get('page', 1, type=int)
+	images = Image.query.filter_by(owner=user, identified=True)\
+		.order_by(Image.date_uploaded.desc()).paginate(page=page, per_page=9)
+	
 	return render_template('user_images_identified.html', images=images, user=user)
 
 
@@ -148,8 +161,12 @@ def user_images_training(username):
 	# users can only view their own images
 	if user != current_user:
 		abort(403)
-	images = Image.query.filter_by(owner=user , submit_for_training=True)\
-		.order_by(Image.date_uploaded.desc()).all()
+
+	# get page, and paginate images
+	page = request.args.get('page', 1, type=int)
+	images = Image.query.filter_by(owner=user, submit_for_training=True)\
+		.order_by(Image.date_uploaded.desc()).paginate(page=page, per_page=9)
+
 	return render_template('user_images_training.html', images=images, user=user)
 
 
@@ -192,7 +209,7 @@ def delete_account():
 	user = User.query.filter_by(id=current_user.id).first()
 	logout_user()
 
-	# delete all images
+	# delete all user images
 	images = Image.query.filter_by(user_id=user.id).all()
 	for image in images:
 		delete_picture(image.image_file, 'user_uploads')
@@ -204,9 +221,9 @@ def delete_account():
 		db.session.delete(comment)
 
 	# delete all post images
-	post_images = Image.query.filter_by(user_id=user.id).all()
+	post_images = PostImage.query.filter_by(user_id=user.id).all()
 	for post_image in post_images:
-		delete_picture(post_image, 'post_pics')
+		delete_picture(post_image.image_file, 'post_pics')
 		db.session.delete(post_image)
 
 	# delete profile picture
