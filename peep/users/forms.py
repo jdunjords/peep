@@ -58,6 +58,11 @@ class UpdateAccountForm(FlaskForm):
 				raise ValidationError('That email is taken, please choose a different one.')
 
 
+class DeleteAccountForm(FlaskForm):
+	archive_posts = BooleanField('Archive my contributions')
+	submit = SubmitField('Yes, delete my account!')
+
+
 class RequestResetForm(FlaskForm):
 	email = StringField('Email',
 		validators=[DataRequired(), Email()])
