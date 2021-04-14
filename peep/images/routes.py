@@ -14,7 +14,7 @@ images = Blueprint('images', __name__)
 @images.route('/upload-image', methods=['GET', 'POST'])
 @login_required
 def new_image():
-	form = ImageForm()
+	form = ImageForm(csrf_enabled=False)
 	if form.validate_on_submit() and form.picture.data:
 
 		max_uploads = current_app.config['BASIC_MAX_UPLOAD']

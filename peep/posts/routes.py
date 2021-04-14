@@ -15,7 +15,7 @@ posts = Blueprint('posts', __name__)
 @login_required
 def new_post():
 	
-	form = PostForm()
+	form = PostForm(csrf_enabled=False)
 	if form.validate_on_submit():
 
 		# create the post and add it to the database
@@ -72,7 +72,7 @@ def update_post(post_id):
 		# HTTP response for a forbidden route
 		abort(403)
 	
-	form = PostForm()
+	form = PostForm(csrf_enabled=False)
 	if form.validate_on_submit():
 
 		# if the filename isn't empty, user selected some files to add
@@ -148,7 +148,7 @@ def comment(post_id):
 	user_id = current_user.id
 
 	# create a comment form to either send or validate
-	form = CommentForm()
+	form = CommentForm(csrf_enabled=False)
 
 	# check that the form validates (i.e., comment has content)
 	if form.validate_on_submit():
