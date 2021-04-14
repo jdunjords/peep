@@ -210,7 +210,7 @@ def delete_account():
 	user = User.query.filter_by(id=current_user.id).first()
 	logout_user()
 
-	# delete all images
+	# delete all user images
 	images = Image.query.filter_by(user_id=user.id).all()
 	for image in images:
 		delete_picture(image.image_file, 'user_uploads')
@@ -222,9 +222,9 @@ def delete_account():
 		db.session.delete(comment)
 
 	# delete all post images
-	post_images = Image.query.filter_by(user_id=user.id).all()
+	post_images = PostImage.query.filter_by(user_id=user.id).all()
 	for post_image in post_images:
-		delete_picture(post_image, 'post_pics')
+		delete_picture(post_image.image_file, 'post_pics')
 		db.session.delete(post_image)
 
 	# delete profile picture
