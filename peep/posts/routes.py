@@ -14,7 +14,7 @@ posts = Blueprint('posts', __name__)
 @login_required
 def new_post():
 	
-	form = PostForm(csrf_enabled=False)
+	form = PostForm(meta={'csrf': False})
 	if form.validate_on_submit():
 
 		# create the post and add it to the database
@@ -71,7 +71,7 @@ def update_post(post_id):
 		# HTTP response for a forbidden route
 		abort(403)
 	
-	form = PostForm(csrf_enabled=False)
+	form = PostForm(meta={'csrf': False})
 	if form.validate_on_submit():
 
 		# update the title and content fields to save changes before checking images
@@ -148,7 +148,7 @@ def comment(post_id):
 	user_id = current_user.id
 
 	# create a comment form to either send or validate
-	form = CommentForm(csrf_enabled=False)
+	form = CommentForm(meta={'csrf': False})
 
 	# check that the form validates (i.e., comment has content)
 	if form.validate_on_submit():

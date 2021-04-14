@@ -15,7 +15,7 @@ users = Blueprint('users', __name__)
 def register():
 	if current_user.is_authenticated:
 		return redirect(url_for('main.home'))
-	form = RegistrationForm(csrf_enabled=False)
+	form = RegistrationForm(meta={'csrf': False})
 	# check to see if the form validated correctly
 	if form.validate_on_submit():
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -34,7 +34,7 @@ def login():
 		return redirect(url_for('main.home'))
 
 	# otherwise, create a form and send it back
-	form = LoginForm(csrf_enabled=False)
+	form = LoginForm(meta={'csrf': False})
 
 	# check that the form validates
 	if form.validate_on_submit():
@@ -64,7 +64,7 @@ def logout():
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-	form = UpdateAccountForm(csrf_enabled=False)
+	form = UpdateAccountForm(meta={'csrf': False})
 	if form.validate_on_submit():
 		# TODO delete old profile pic when updating new one
 		if form.picture.data:
@@ -174,7 +174,7 @@ def user_images_training(username):
 def reset_request():
 	if current_user.is_authenticated:
 		return redirect(url_for('main.home'))
-	form = RequestResetForm(csrf_enabled=False)
+	form = RequestResetForm(meta={'csrf': False})
 	if form.validate_on_submit():
 		user = User.query.filter_by(email=form.email.data).first()
 		send_reset_email(user)
@@ -191,7 +191,7 @@ def reset_token(token):
 	if user is None:
 		flash('That is an invalid or expired token', 'warning')
 		return redirect(url_for('users.reset_request'))
-	form = ResetPasswordForm(csrf_enabled=False)
+	form = ResetPasswordForm(meta={'csrf': False})
 	if form.validate_on_submit():
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 		user.password = hashed_password
