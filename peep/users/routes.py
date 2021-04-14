@@ -2,8 +2,8 @@ from flask import render_template, request, redirect, url_for, flash, Blueprint,
 from flask_login import login_user, current_user, logout_user, login_required
 from peep import db, bcrypt
 from peep.models import User, Post, Image, Comment, PostImage
-from peep.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, 
-                                   RequestResetForm, ResetPasswordForm)
+from peep.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm, DeleteAccountForm,
+                              RequestResetForm, ResetPasswordForm)
 from peep.users.utils import send_reset_email
 from peep.images.utils import delete_picture, save_picture
 
@@ -204,41 +204,64 @@ def reset_token(token):
 @users.route('/account/delete', methods=['GET', 'POST'])
 @login_required
 def delete_account():
-	
-	# save the current user and log them out
-	user = User.query.filter_by(id=current_user.id).first()
-	logout_user()
 
-	# delete all user images
-	images = Image.query.filter_by(user_id=user.id).all()
-	for image in images:
-		delete_picture(image.image_file, 'user_uploads')
-		db.session.delete(image)
+	form = DeleteAccountForm(meta={'csrf' : False})
 
-	# delete all comments
-	comments = Comment.query.filter_by(user_id=user.id).all()
-	for comment in comments:
-		db.session.delete(comment)
+	if form.validate_on_submit():
+		# save the current user and log them out
+		user = User.query.filter_by(id=current_user.id).first()
+		logout_user()
 
-	# delete all post images
-	post_images = PostImage.query.filter_by(user_id=user.id).all()
-	for post_image in post_images:
-		delete_picture(post_image.image_file, 'post_pics')
-		db.session.delete(post_image)
+		# query all user comments, post images, and posts
+		comments = Comment.query.filter_by(user_id=user.id).all()
+		post_images = PostImage.query.filter_by(user_id=user.id).all()
+		posts = Post.query.filter_by(user_id=user.id).all()
 
-	# delete profile picture
-	if user.image_file != 'default.jpg':
-		delete_picture(user.image_file, 'profile_pics')
+		# get the deleted user so we can transfer ownership
+		deleted_user = User.query.filter_by(username="[deleted]").first()
+		
+		# change ownership of user posts, post images, and comments to a "[deleted]" profile
+		if form.archive_posts.data:
+			for comment in comments:
+				comment.user_id = deleted_user.id
 
-	# delete all posts
-	posts = Post.query.filter_by(user_id=user.id).all()
-	for post in posts:
-		db.session.delete(post)
+			for post_image in post_images:
+				post_image.user_id = deleted_user.id
 
-	# delete user
-	db.session.delete(user)
-	db.session.commit()
+			for post in posts:
+				post.user_id = deleted_user.id
 
-	flash("Your account has been deleted. We're sorry to see you go!", "success")
+			db.session.commit()
 
-	return redirect(url_for('main.home'))
+		# otherwise delete their posts, post images, and comments
+		else:
+			for comment in comments:
+				db.session.delete(comment)
+
+			for post_image in post_images:
+				delete_picture(post_image.image_file, 'post_pics')
+				db.session.delete(post_image)
+
+			for post in posts:
+				db.session.delete(post)
+
+		# delete all user images
+		images = Image.query.filter_by(user_id=user.id).all()
+		for image in images:
+			delete_picture(image.image_file, 'user_uploads')
+			db.session.delete(image)
+
+		# delete their profile picture
+		if user.image_file != 'default.jpg':
+			delete_picture(user.image_file, 'profile_pics')
+
+		# delete user
+		db.session.delete(user)
+		db.session.commit()
+
+		flash("Your account has been deleted. We're sorry to see you go!", "success")
+
+		return redirect(url_for('main.home'))
+
+	# otherwise, just render the delete_account template and form
+	return render_template("delete_account.html", title="Delete Account",form=form)
