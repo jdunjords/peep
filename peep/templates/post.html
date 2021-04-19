@@ -65,8 +65,9 @@
 			</div>
 	    </div>
 	</article>
-
+	
 	<h1> Comments </h1>
+	<div class="comment-section">
 	<!-- comments -->
 	{% for comment in comments %}
 		<article class="media content-section">
@@ -78,7 +79,7 @@
 					</a>
 					<small class="text-white">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
 				</div>
-				<p class = "article-content"> {{ comment.content }}</p>	
+					<p class = "article-content "> {{ comment.content }}</p>	
 
 				<!-- dropdown buttons for comments --> 
 				 <!-- {% if post.author == current_user %}
@@ -96,6 +97,7 @@
 			</div> -->
 		</article>
 	{% endfor %}
+</div>
 
 	<!-- Modal -->
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
