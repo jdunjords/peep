@@ -53,6 +53,9 @@
 		</fieldset>
 		<div class="form-group">
 			{{ form.submit(class="btn btn-outline-info") }}
+			<!-- reset password -->
+			<a href="{{ url_for('users.reset_request') }}" class="btn btn-outline-info">
+				Reset Password </a>
 		</div>
 	</form>
 </div>
