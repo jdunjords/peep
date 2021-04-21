@@ -1,3 +1,7 @@
+.navbar-logo{
+  height: 5%;
+  width: 5%;
+}
 body {
 	background-image: url('./design-images/background.jpg');
 	color: #333333;
@@ -8,7 +12,7 @@ body {
 	color: #eabb00;
   }
   .content-section{
-    box-shadow: 10px 10px 5px black;
+    box-shadow: 10px 10px 50px black;
   }
   
   .image-box{
@@ -74,6 +78,97 @@ body {
 	margin-right: 16px;
   }
   
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3;
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+  }
+  
+  .nav-link {
+    color: #95f953;
+  }
+  a.nav-link:hover {
+    color: white;
+  }
+  
+  a.mr-2{
+    color: #eabb00;
+  }
+  a.mr-2:hover{
+    color: white;
+  }
+  .mb-3{
+    color: #fffaf0;
+  }
+  .actions {
+    font-size: 20px;
+  }
+  .action-icon {
+    width: 20px;
+  }
+  .col-lg {
+    padding: 20px;
+  }
+  
+  legend{
+    color: white;
+  }
+  label {
+    color: white;
+  }
+  .upload-body{
+    color:white;
+  }
+  .wrapper {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+  .comment-section {
+    overflow-y: scroll;
+    padding: 10px;
+    padding-bottom: 30px;
+  }
+  
+  .image-content{
+    margin-top: 20x;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    background-color: #333333;
+    height: 260px;
+    width: 220px;
+    align-content: center;
+  }
+
+  .sub-comment{
+    background-color: grey;
+    max-width: 90%;
+  }
+  
+  /* buttons */
   .btn-outline-info {
     background-color: black;
     border-color: black;
@@ -95,40 +190,6 @@ body {
     border-color:#95f953;
     color: black;
   }
-  .article-metadata {
-	padding-bottom: 1px;
-	margin-bottom: 4px;
-	border-bottom: 1px solid #e3e3e3;
-  }
-  
-  .article-metadata a:hover {
-	color: #333;
-	text-decoration: none;
-  }
-  
-  .article-svg {
-	width: 25px;
-	height: 25px;
-	vertical-align: middle;
-  }
-  
-  .account-img {
-	height: 125px;
-	width: 125px;
-	margin-right: 20px;
-	margin-bottom: 16px;
-  }
-  
-  .account-heading {
-	font-size: 2.5rem;
-  }
-
-  .nav-link {
-    color: #95f953;
-  }
-   a.nav-link:hover {
-   color: white;
-  }
   .identify-btn{
     background-color: black;
     position: absolute;
@@ -138,88 +199,45 @@ body {
     height: 30px;
     color: white;
   }
-  a.identify-btn:hover{
-    color: #95f953;
-  }
-
-  a.mr-2{
-    color: #eabb00;
-  }
-  a.mr-2:hover{
-    color: white;
-  }
-  .mb-3{
-    color: #fffaf0;
-  }
-  .actions {
-    font-size: 20px;
-  }
-  .action-icon {
-    width: 20px;
-  }
   .button-style{
     height: 40px;
     width: 200px;
     position: absolute;
   }
-  .col-lg {
-    padding: 20px;
-    }
-
   .reply-btn {
     border-radius: 10px;
     background-color: black;
     color: white;
     border: none;
+    position: absolute;
+    right: 15%;
   }
-  .reply-btn:hover{
+  .btn:hover{
     color: #95f953;
   }
-  legend{
-    color: white;
-  }
-  label {
-    color: white;
-  }
- .upload-body{
-   color:white;
- }
- .wrapper {
-  display: grid;
-  grid-template-columns: auto auto auto;
- }
 
-.image-content{
-  margin-top: 20x;
-  margin-bottom: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 10px;
-  background-color: #333333;
-  height: 260px;
-  width: 220px;
-  align-content: center;
+.view-all-btn{
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  /* position: absolute;
+   right: 25%;
+  bottom: 0%; */
+}
+.prev-comments{
+  background-color: grey;
+  margin: 10px;
 }
 
-.favorite-btn:hover{
-  color: #95f953;
-}
-
-.navbar-logo{
-  height: 5%;
-  width: 5%;
-}
-
-#imageDropdown{
-  position: absolute;
-  right: 0%;
-}
 .dropdown-btn{
   background-color:black;
   border: none;
   color: white;
   border-radius: 10px;
-  float: right;
+  position: absolute;
+  right: 0%;
+  bottom: 0%;
 }
 .delete-comment{
   background-color: red;
@@ -230,6 +248,12 @@ body {
   text-align: center;
   color: white;
 }
+
+/* drop down */
+#imageDropdown{
+  position: absolute;
+  right: 0%;
+}
 .dropdown-delete{
  color: red;
 }
@@ -237,16 +261,8 @@ body {
 .dropdown-item{
 text-decoration: none;
 }
-
 .dropdown{
   padding: 10px;
-}
-
-.comment-section {
-  height:300px;
-  overflow-y: scroll;
-  padding: 10px;
-  padding-bottom: 30px;
 }
 /* media query
 @media screen and (min-width: 600px){
