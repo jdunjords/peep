@@ -23,6 +23,7 @@ class User(db.Model, UserMixin):
 	comment = db.relationship('Comment', backref='author', lazy=True)
 	image = db.relationship('Image', backref='owner', lazy=True)
 	postimage = db.relationship('PostImage', backref='owner', lazy=True)
+	subcomments = db.relationship('SubComment', backref='author', lazy=True)
 
 	def get_reset_token(self, expires_sec=1800):
 		s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -88,3 +89,16 @@ class Comment(db.Model):
 
 	def repr(self):
 		return f"Comment('{self.id}', '{self.content}','{self.post_id}', '{self.user_id}')"
+
+
+#tablename: 'subcomments'
+class SubComment(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	content = db.Column(db.Text, nullable=False)
+	date_commented = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+	parent_com_id = db.Column(db.Integer, db.ForeignKey('comment.id'), nullable=False)
+	post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+	def repr(self):
+		return f"Sub-Comment('{self.id}', '{self.content}','{self.parent_com_id}', '{self.user_id}')"

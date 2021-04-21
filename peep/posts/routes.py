@@ -2,7 +2,7 @@ from flask import (Blueprint, render_template, url_for,
                    flash, redirect, request, abort, current_app)
 from flask_login import current_user, login_required
 from peep import db
-from peep.models import Post, PostImage, Comment
+from peep.models import User, Post, PostImage, Comment, SubComment
 from peep.posts.forms import PostForm, CommentForm
 from peep.images.utils import save_picture, delete_picture
 
@@ -53,12 +53,16 @@ def post(post_id):
 	# get all comments for the current post
 	comments = Comment.query.filter_by(post_id=post_id).all()
 
+	subcomments = []
+	for comment in comments:
+		subcomments.append(SubComment.query.filter_by(parent_com_id=comment.id).all())
+
 	# get all images for the current post
 	post_images = PostImage.query.filter_by(post_id=post_id).all()
 
 	# get the post (or return 404 if it doesn't exist)
 	post = Post.query.get_or_404(post_id)
-	return render_template('post.html', comments=comments, 
+	return render_template('post.html', comments=comments, subcomments=subcomments,
 							title=post.title, post=post, post_images=post_images)
 
 
@@ -122,8 +126,11 @@ def delete_post(post_id):
 
 	# delete all comments on the post to keep referential integrity
 	post_comments = Comment.query.filter_by(post_id=post_id).all()
-	if post_comments:
-		db.session.delete(post_comments)
+	for post_comment in post_comments:
+		subcomments = SubComment.query.filter_by(parent_com_id=post_comment.id).all()
+		for subcomment in subcomments:
+			db.session.delete(subcomment)
+		db.session.delete(post_comment)
 
 	# delete all of the post pictures
 	post_images = PostImage.query.filter_by(post_id=post_id).all()
@@ -172,27 +179,70 @@ def comment(post_id):
 							post_id=post_id)
 
 
-# create delete comment function
-@posts.route('/post/<int:post_id>/delete', methods=['POST'])
+@posts.route('/subcomment/<int:post_id>/<int:comment_id>/<int:user_id>', methods=['GET', 'POST'])
 @login_required
-def delete_comment(comment_id):
-	comment = Comment.query.get_or_404(id)
+def subcomment(post_id, comment_id, user_id):
+	
+	# get the current user's id so we know who wrote the comment
+	user_id = current_user.id
+
+	# create a comment form to either send or validate
+	form = CommentForm(meta={'csrf': False})
+
+	# check that the form validates (i.e., comment has content)
+	if form.validate_on_submit():
+
+		# create new comment, attach it to current user and the post
+		# that it's replying to
+		subcomment = SubComment(parent_com_id=comment_id, user_id=user_id,
+				   	            post_id=post_id, content=form.content.data)
+		db.session.add(subcomment)
+		db.session.commit()
+
+		# redirect to the page for the post replied to
+		return redirect(url_for("posts.post", post_id=post_id))
+
+	# get the author of the post for display purposes
+	comment_author = User.query.filter_by(id=user_id).first().username
+
+	# render comment page
+	return render_template("comment.html", form=form, 
+							legend=f"Reply to {comment_author}", 
+							post_id=post_id)
+
+
+# create delete comment function
+@posts.route('/post/<int:post_id>/comment/delete/<int:comment_id>', methods=['POST'])
+@login_required
+def delete_comment(post_id, comment_id):
+	comment = Comment.query.get_or_404(comment_id)
 	if comment.author != current_user:
 		# HTTP response for a forbidden route
 		abort(403)
 
-	# # delete all comments on the post to keep referential integrity
-	# # post_comments = Comment.query.filter_by(post_id=post_id).all()
-	# Comment.query.filter_by(post_id=post_id).delete()
-	# # db.session.delete(post_comments)
-	# # db.session.commit()
-
-	# # now we can safely delete the post
-	# db.session.delete(post)
-	# db.session.commit()
-
-	# delete the comment
-	# commit to db
+	# delete all subcomments that refer to this comment id
+	subcomments = SubComment.query.filter_by(parent_com_id=comment_id).all()
+	for subcomment in subcomments:
+		db.session.delete(subcomment)
+	db.session.delete(comment)
+	db.session.commit()
 
 	flash('Your comment has been deleted!', 'success')
-	return redirect(url_for('posts.post', post_id=post.id))
+	return redirect(url_for('posts.post', post_id=post_id))
+
+
+# create delete comment function
+@posts.route('/post/<int:post_id>/subcomment/delete/<int:subcomment_id>', methods=['POST'])
+@login_required
+def delete_subcomment(post_id, subcomment_id):
+	subcomment = SubComment.query.get_or_404(subcomment_id)
+	if subcomment.author != current_user:
+		# HTTP response for a forbidden route
+		abort(403)
+
+	# delete the subcomment
+	db.session.delete(subcomment)
+	db.session.commit()
+
+	flash('Your subcomment has been deleted!', 'success')
+	return redirect(url_for('posts.post', post_id=post_id))

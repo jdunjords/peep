@@ -105,6 +105,9 @@ def user_posts(username):
 	for post in posts.items:
 		images = PostImage.query.filter_by(post_id=post.id).all()
 		post_images.append(images)
+
+	# subcomments = []
+	# for post in posts.items:
 	
 	return render_template('user_posts.html', posts=posts, user=user, post_images=post_images)
 

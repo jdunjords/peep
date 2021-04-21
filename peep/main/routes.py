@@ -14,17 +14,21 @@ def home():
 	posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
 
 	# create a list of lists that contains all comments for all posts
-	# list_all = []
-	# for i in posts.items:
-	# 	result = Comment.query.filter_by(post_id=i.id).all()
-	# 	list_all.append(result)
+	comments_all = []
+	for post in posts.items:
+		comments = Comment.query.filter_by(post_id=post.id).all()
+		if comments != None and len(comments) >= 2:
+			comments_all.append(comments[:2])
+		else:
+			comments_all.append(comments)
 
 	post_images = []
 	for post in posts.items:
 		images = PostImage.query.filter_by(post_id=post.id).all()
 		post_images.append(images)
 
-	return render_template("home.html", posts=posts, post_images=post_images, title="home")
+	return render_template("home.html", posts=posts, post_images=post_images, 
+	                       comments_all=comments_all, title="home")
 
 
 @main.route('/about')

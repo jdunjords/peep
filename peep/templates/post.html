@@ -70,19 +70,30 @@
 	<div class="comment-section">
 	<!-- comments -->
 	{% for comment in comments %}
-		<article class="media content-section">
-			<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
+	<article class="media content-section">
+		<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
 			<div style="color:white;" class="media-body">
+
+				<!-- user comment information -->
 				<div class="article-metadata">
 					<a class="mr-2" href="{{ url_for('users.user_posts', username=comment.author.username) }}">
 						{{ comment.author.username }} 
 					</a>
 					<small class="text-white">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
 				</div>
-					<p class = "article-content "> {{ comment.content }}</p>	
 
-				<!-- dropdown buttons for comments --> 
-				 <!-- {% if post.author == current_user %}
+				<!-- comment content -->
+				<p class = "article-content "> {{ comment.content }}</p>	
+
+				<!-- reply to comment button -->
+				<a 
+					class="reply-btn btn" 
+					href="{{ url_for('posts.subcomment', post_id=post.id, comment_id=comment.id, user_id=comment.author.id) }}">
+					Reply
+				</a>
+
+				<!-- dropdown buttons for comments   -->
+				{% if comment.author == current_user %}
 				<div class="dropdown">
 					<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span class="material-icons"> more_horiz</span>
@@ -93,49 +104,100 @@
 						</a>
 					</div>
 				</div>
-				{% endif %} 
-			</div> -->
-		</article>
+				<!-- delete comment modal -->
+				<div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+						<h5 class="modal-title" id="deleteCommentModalLabel">Delete Comment?</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						</div>
+						<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					
+						<form action="{{ url_for('posts.delete_comment', post_id=post.id, comment_id=comment.id) }}" method="POST">
+							<input type="submit" class="btn btn-danger" value="Delete">
+						</form>
+						</div>
+					</div>
+					</div>
+				</div>
+				{% endif %}
+
+			</div> 
+			{% for subcomment in subcomments[loop.index0] %}
+				<article class="media content-section">
+					<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
+					<div style="color:white;" class="media-body">
+						<div class="article-metadata">
+							<a class="mr-2" href="{{ url_for('users.user_posts', username=comment.author.username) }}">
+								{{ subcomment.author.username }} 
+							</a>
+							<small class="text-white">{{ subcomment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+						</div>
+						<p class = "article-content "> {{ subcomment.content }}</p>	
+				</article>
+
+				<!-- dropdown buttons for comments   -->
+				{% if subcomment.author == current_user %}
+					<div class="dropdown">
+						<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="material-icons"> more_horiz</span>
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" style="color:red" data-toggle="modal" data-target="#deleteSubCommentModal">
+								Delete 
+							</a>
+						</div>
+					</div>
+
+					<!-- delete subcomment modal -->
+					<div class="modal fade" id="deleteSubCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+							<h5 class="modal-title" id="deleteSubCommentModalLabel">Delete Comment?</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							</div>
+							<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						
+							<form action="{{ url_for('posts.delete_subcomment', post_id=post.id, subcomment_id=subcomment.id) }}" method="POST">
+								<input type="submit" class="btn btn-danger" value="Delete">
+							</form>
+							</div>
+						</div>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+	</article>
 	{% endfor %}
 </div>
 
-	<!-- Modal -->
-	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-			<h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			</div>
-			<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			<form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
-				<input type="submit" class="btn btn-danger" value="Delete">
-			</form>
-			</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+		<h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
 		</div>
+		<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		<form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+			<input type="submit" class="btn btn-danger" value="Delete">
+		</form>
 		</div>
 	</div>
-	<!-- delete comment modal -->
-	<div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-			<h5 class="modal-title" id="deleteCommentModalLabel">Delete Comment?</h5>
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			</div>
-			<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			<!-- change this for delete comment -->
-			<form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
-				<input type="submit" class="btn btn-danger" value="Delete">
-			</form>
-			</div>
-		</div>
-		</div>
 	</div>
+</div>
+
+
 {% endblock content %}
