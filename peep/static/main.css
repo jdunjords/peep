@@ -149,6 +149,7 @@ body {
     overflow-y: scroll;
     padding: 10px;
     padding-bottom: 30px;
+    max-height: 1000px;
   }
   
   .image-content{
@@ -164,9 +165,13 @@ body {
   }
 
   .sub-comment{
-    background-color: grey;
-    max-width: 90%;
+    width: 90%;
+    float: right;
   }
+  /* .sub-comments{
+    overflow-y: scroll;
+    max-height: 300px;
+  } */
   
   /* buttons */
   .btn-outline-info {
@@ -209,8 +214,6 @@ body {
     background-color: black;
     color: white;
     border: none;
-    position: absolute;
-    right: 15%;
   }
   .btn:hover{
     color: #95f953;
@@ -218,16 +221,19 @@ body {
 
 .view-all-btn{
   border-radius: 10px;
-  background-color: black;
-  color: white;
+  color: #95f953;
   border: none;
   /* position: absolute;
    right: 25%;
   bottom: 0%; */
 }
+.view-all-btn:hover {
+  text-decoration: none;
+  color: #95f953;
+}
 .prev-comments{
   background-color: grey;
-  margin: 10px;
+  margin-top: 10px;
 }
 
 .dropdown-btn{

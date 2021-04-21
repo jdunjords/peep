@@ -70,8 +70,8 @@
 
 <!-- comments -->
 <h1> Comments </h1>
+<div class = "comment-section">
 {% for comment in comments %}
-<article class="media content-section">
 	<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
 	<div style="color:white;" class="media-body">
 
@@ -82,7 +82,12 @@
 			</a>
 			<small class="text-white">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
 
-			
+			<!-- reply to comment button -->
+			<a class="reply-btn btn" 
+			href="{{ url_for('posts.subcomment', post_id=post.id, comment_id=comment.id, user_id=comment.author.id) }}">
+			Reply
+			</a>
+
 			<!-- dropdown buttons for comments   -->
 			{% if comment.author == current_user %}
 			<div class="dropdown">
@@ -121,9 +126,11 @@
 		<!-- comment content -->
 		<p class = "article-content "> {{ comment.content }}</p>	
 		
+		
+		<div class = "sub-comments">
 		<!-- sub comments -->
 		{% for subcomment in subcomments[loop.index0] %}
-		<article class="media content-section sub-comment">
+		<div class="sub-comment">
 			<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
 			<div style="color:white;" class="media-body">
 				<div class="article-metadata">
@@ -167,16 +174,12 @@
 				</div>
 				<p class = "article-content "> {{ subcomment.content }}</p>	
 			</div>
-		</article>
+		</div>
 		{% endfor %}
-	<!-- reply to comment button -->
-	<a class="reply-btn btn" 
-		href="{{ url_for('posts.subcomment', post_id=post.id, comment_id=comment.id, user_id=comment.author.id) }}">
-		Reply
-	</a>
-	</div>
-</article>
+		</div>
+</div>
 {% endfor %}
+</div>
 	
 	
 <!-- Modal -->
