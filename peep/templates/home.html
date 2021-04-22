@@ -82,12 +82,12 @@
 						<p class = "article-content "> {{ comment.content }}</p>	
 				</article>
 				{% endfor %}
+				<!-- buttons -->
+				<a class="reply-btn btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>	
 					
 				<!-- view all comments button -->
 				<a class="view-all-btn" href="{{ url_for('posts.post', post_id=post.id) }}">View All Comments</a>
 				
-				<!-- buttons -->
-				<a class="reply-btn btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>	
 			</div>
         </article>
 		
