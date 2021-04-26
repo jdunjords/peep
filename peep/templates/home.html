@@ -12,7 +12,7 @@
 					<div class="dropdown">
 						{% if post.author == current_user %}
 						<!-- dropdown buttons -->
-						<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<button class = "home-dropdown-btn btn btn-sm m-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<span class="material-icons"> more_horiz</span>
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -79,7 +79,7 @@
 							</a>
 							<small class="text-dark">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
 						</div>
-						<p class = "article-content "> {{ comment.content }}</p>	
+						<p class = "article-content"> {{ comment.content }}</p>	
 				</article>
 				{% endfor %}
 				<!-- buttons -->

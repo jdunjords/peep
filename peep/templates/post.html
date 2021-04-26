@@ -12,7 +12,7 @@
 			<div class="dropdown">
 				{% if post.author == current_user %}
 				<!-- dropdown buttons -->
-				<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button class = "home-dropdown-btn btn btn-sm m-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="material-icons"> more_horiz</span>
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -41,7 +41,7 @@
 			<div class="carousel-inner">
 				{% for image in post_images %}
 				{% if loop.index == 1 %}
-				<div class="carousel-item active">
+				<div class="carousel-item active" >
 					<img class="d-block w-100" src="{{ url_for('static', filename='post_pics/' + image.image_file) }}" alt="Slide {{loop.index}}">
 				</div>
 				{% else %}
@@ -75,20 +75,20 @@
 	<div style="color:white;" class="media-body">
 		<!-- user comment information -->
 		<div>
-				<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
-				<a class="mr-2" href="{{ url_for('users.user_posts', username=comment.author.username) }}">
-					{{ comment.author.username }} 
-					<small class="text-muted">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
-				</a>
+			<img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + comment.author.image_file) }}" alt="">
+			<a class="mr-2" href="{{ url_for('users.user_posts', username=comment.author.username) }}">
+				{{ comment.author.username }} 
+				<small class="text-muted">{{ comment.date_commented.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+			</a>
 
 				<!-- dropdown buttons for comments   -->
 				{% if comment.author == current_user %}
 				<div class="dropdown">
-					<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button class = "home-dropdown-btn btn btn-sm m-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span class="material-icons"> more_horiz</span>
 					</button>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" style="color:red" data-toggle="modal" data-target="#deleteCommentModal">
+						<a class="dropdown-item" style="color:red" data-toggle="modal" data-target="#deleteCommentModal{{ loop.index }}">
 							Delete 
 						</a>
 					</div>
@@ -117,7 +117,7 @@
 			</div>
 			
 			<!-- comment content -->
-			<p class = "article-content "> {{ comment.content }}</p>	
+			<p class = "article-content comment"> {{ comment.content }}</p>	
 			
 			
 			<div class = "sub-comments">
@@ -133,11 +133,11 @@
 						<!-- dropdown buttons for comments   -->
 						{% if subcomment.author == current_user %}
 						<div class="dropdown">
-							<button class = "dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<button class = "home-dropdown-btn btn btn-sm m-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<span class="material-icons"> more_horiz</span>
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" style="color:red" data-toggle="modal" data-target="#deleteSubCommentModal">
+								<a class="dropdown-item" style="color:red" data-toggle="modal" data-target="#deleteSubCommentModal{{ loop.index }}">
 									Delete 
 								</a>
 							</div>
@@ -163,7 +163,7 @@
 							</div>
 						</div>
 						{% endif %}
-						<p class = "article-content "> {{ subcomment.content }}</p>			
+						<p class = "article-content comment"> {{ subcomment.content }}</p>			
 				</div>
 			</div>
 			{% endfor %}

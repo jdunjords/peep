@@ -21,16 +21,29 @@
 					alt="">	
 				</a>
 				<!-- time stamp -->
-				<small class="text-muted">{{ image.date_uploaded.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+				<small class="text-muted"> Uploaded on {{ image.date_uploaded.strftime('%m-%d-%Y') }}</small>
 				
 
 				<!-- Buttons -->
 				{% if image.owner == current_user %}
 				<div class = "button-style">
-					<!-- dropdown buttons -->
+					<!-- image buttons -->
 					<div class="dropdown">
-						<button class = "dropdown-btn" type="button" id="imageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<span class="material-icons"> more_horiz</span>
+						<!-- favorite image button -->
+						{% if image.favorited == False %}
+							<a type = "button" class="btn btn-sm m-1 std-btn" id="favorite-btn"
+							href = "{{url_for('images.favorite_image', image_id=image.id)}}">
+								 <span class = "material-icons">favorite_border</span> 
+							</a>
+						{% else %}
+							<a type = "button" class="btn btn-sm m-1 std-btn" id="favorite-btn"
+							href = "{{url_for('images.unfavorite_image', image_id=image.id)}}">
+								<span class = "material-icons">favorite</span> 
+							</a>
+						{% endif %}
+						<!-- dropdown button -->
+						<button class = "dropdown-btn btn btn-sm m-1" type="button" id="imageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="material-icons"> more_horiz</span>
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							<a class="dropdown-item" href="{{url_for('images.classify_bird', image_id=image.id)}}">
