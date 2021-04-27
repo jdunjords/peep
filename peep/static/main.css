@@ -1,7 +1,30 @@
+/* image stuff */
 .navbar-logo{
   height: 5%;
   width: 5%;
 }
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+.image-box{
+  margin: 20px;
+}
+.image-content{
+  margin-top: 20x;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  background-color: #333333;
+  height: 260px;
+  width: 220px;
+  align-content: center;
+}
+
+/* main css */
 body {
 	background-image: url('./design-images/background.jpg');
 	color: #333333;
@@ -14,10 +37,7 @@ body {
   .content-section{
     box-shadow: 10px 10px 50px black;
   }
-  
-  .image-box{
-    margin: 20px;
-  }
+
   .bg-steel {
 	background-color: black;
   }
@@ -53,7 +73,12 @@ body {
   p{
     color: white;
   }
+  a.mr-2 {
+    color: black;
+    text-decoration: none;
+  }
   
+  /* article */
   .article-title {
 	color: #eabb00;
   }
@@ -67,19 +92,11 @@ body {
 	white-space: pre-line;
   word-break: break-word;
   }
-.comment{
-  position:relative;
-  left: 10%;
-}
-  a.mr-2 {
-    color: black;
-    text-decoration: none;
-  }
   .article-img {
-	height: 65px;
-	width: 65px;
-	margin-right: 16px;
-  margin-top: 10px;
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+    margin-top: 10px;
   }
   .article-img-2 {
     height: 35px;
@@ -102,13 +119,6 @@ body {
     width: 25px;
     height: 25px;
     vertical-align: middle;
-  }
-  
-  .account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
   }
   
   .account-heading {
@@ -154,6 +164,17 @@ body {
     display: grid;
     grid-template-columns: auto auto auto;
   }
+  
+  /* comment stuff */
+  .comment{
+    position:relative;
+    left: 13%;
+  }
+  .subcomment{
+    position:relative;
+    left: 10%;
+  }
+  
   .comment-section {
     overflow-y: scroll;
     padding: 20px;
@@ -162,19 +183,6 @@ body {
     background-color: #404040;
     box-shadow: 10px 10px 50px black;
   }
-  
-  .image-content{
-    margin-top: 20x;
-    margin-bottom: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 10px;
-    background-color: #333333;
-    height: 260px;
-    width: 220px;
-    align-content: center;
-  }
-
   .sub-comment{
     width: 90%;
     float: right;
@@ -257,9 +265,6 @@ body {
   border-radius: 10px;
   color: #95f953;
   border: none;
-  /* position: absolute;
-   right: 25%;
-  bottom: 0%; */
 }
 .view-all-btn:hover {
   text-decoration: none;
@@ -294,6 +299,9 @@ text-decoration: none;
 .dropdown{
   padding: 10px;
 }
+
+/* carousel */
+
 /* media query
 @media screen and (min-width: 600px){
   .user-image {

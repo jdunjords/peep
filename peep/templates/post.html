@@ -118,8 +118,7 @@
 			
 			<!-- comment content -->
 			<p class = "article-content comment"> {{ comment.content }}</p>	
-			
-			
+					
 			<div class = "sub-comments">
 			<!-- sub comments -->
 			{% for subcomment in subcomments[loop.index0] %}
@@ -163,7 +162,7 @@
 							</div>
 						</div>
 						{% endif %}
-						<p class = "article-content comment"> {{ subcomment.content }}</p>			
+						<p class = "article-content subcomment"> {{ subcomment.content }}</p>			
 				</div>
 			</div>
 			{% endfor %}
