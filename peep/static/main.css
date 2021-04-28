@@ -1,3 +1,35 @@
+/* image stuff */
+.navbar-logo{
+  height: 5%;
+  width: 5%;
+}
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+.image-box{
+  margin: 20px;
+}
+.image-content{
+  margin-top: 20x;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  background-color: #333333;
+  height: 260px;
+  width: 220px;
+  align-content: center;
+}
+
+.carousel-image{
+  max-height: 300px;
+  width: auto;
+}
+
+/* main css */
 body {
 	background-image: url('./design-images/background.jpg');
 	color: #333333;
@@ -8,12 +40,9 @@ body {
 	color: #eabb00;
   }
   .content-section{
-    box-shadow: 10px 10px 5px black;
+    box-shadow: 10px 10px 50px black;
   }
-  
-  .image-box{
-    margin: 20px;
-  }
+
   .bg-steel {
 	background-color: black;
   }
@@ -49,7 +78,12 @@ body {
   p{
     color: white;
   }
+  a.mr-2 {
+    color: black;
+    text-decoration: none;
+  }
   
+  /* article */
   .article-title {
 	color: #eabb00;
   }
@@ -63,17 +97,112 @@ body {
 	white-space: pre-line;
   word-break: break-word;
   }
-
-  a.mr-2 {
-    color: black;
-    text-decoration: none;
-  }
   .article-img {
-	height: 65px;
-	width: 65px;
-	margin-right: 16px;
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+    margin-top: 10px;
+  }
+  .article-img-2 {
+    height: 35px;
+    width: 35px;
+    margin-right: 16px;
   }
   
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3;
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+  }
+  
+  .nav-link {
+    color: #95f953;
+  }
+  a.nav-link:hover {
+    color: white;
+  }
+  
+  a.mr-2{
+    color: #eabb00;
+  }
+  a.mr-2:hover{
+    color: white;
+  }
+  .mb-3{
+    color: #fffaf0;
+  }
+  .actions {
+    font-size: 20px;
+  }
+  .action-icon {
+    width: 20px;
+  }
+  .col-lg {
+    padding: 20px;
+  }
+  
+  legend{
+    color: white;
+  }
+  label {
+    color: white;
+  }
+  .upload-body{
+    color:white;
+  }
+  .wrapper {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+  
+  /* comment stuff */
+  .comment{
+    position:relative;
+    left: 13%;
+  }
+  .subcomment{
+    position:relative;
+    left: 10%;
+  }
+  
+  .comment-section {
+    overflow-y: scroll;
+    padding: 20px;
+    padding-bottom: 30px;
+    max-height: 1000px;
+    background-color: #404040;
+    box-shadow: 10px 10px 50px black;
+  }
+  .sub-comment{
+    width: 90%;
+    float: right;
+  }
+ 
+  /* buttons */
+  .std-btn{
+    background-color: black;
+    position: absolute;
+    bottom: 0%;
+    margin: 5px;
+    height: 30px;
+    color: white;
+    text-align: center;
+  }
   .btn-outline-info {
     background-color: black;
     border-color: black;
@@ -95,131 +224,60 @@ body {
     border-color:#95f953;
     color: black;
   }
-  .article-metadata {
-	padding-bottom: 1px;
-	margin-bottom: 4px;
-	border-bottom: 1px solid #e3e3e3;
-  }
-  
-  .article-metadata a:hover {
-	color: #333;
-	text-decoration: none;
-  }
-  
-  .article-svg {
-	width: 25px;
-	height: 25px;
-	vertical-align: middle;
-  }
-  
-  .account-img {
-	height: 125px;
-	width: 125px;
-	margin-right: 20px;
-	margin-bottom: 16px;
-  }
-  
-  .account-heading {
-	font-size: 2.5rem;
-  }
 
-  .nav-link {
-    color: #95f953;
+  #favorite-btn{
+    position: absolute;
+    top: 10%;
   }
-   a.nav-link:hover {
-   color: white;
-  }
-  .identify-btn{
+  .home-dropdown-btn {
     background-color: black;
     position: absolute;
     bottom: 0%;
-    left: 32%;
-    margin: 5px;
+    right: 0%;
     height: 30px;
     color: white;
+    margin: 5px;
+    text-align: center;
   }
-  a.identify-btn:hover{
-    color: #95f953;
-  }
-
-  a.mr-2{
-    color: #eabb00;
-  }
-  a.mr-2:hover{
+  .dropdown-btn{
+    background-color: black;
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+    top: 10%;
+    height: 30px;
     color: white;
-  }
-  .mb-3{
-    color: #fffaf0;
-  }
-  .actions {
-    font-size: 20px;
-  }
-  .action-icon {
-    width: 20px;
+    margin: 5px;
+    text-align: center;
   }
   .button-style{
     height: 40px;
     width: 200px;
     position: absolute;
   }
-  .col-lg {
-    padding: 20px;
-    }
-
   .reply-btn {
     border-radius: 10px;
     background-color: black;
     color: white;
     border: none;
+    margin: 20px;
   }
-  .reply-btn:hover{
+  .btn:hover{
     color: #95f953;
   }
-  legend{
-    color: white;
-  }
-  label {
-    color: white;
-  }
- .upload-body{
-   color:white;
- }
- .wrapper {
-  display: grid;
-  grid-template-columns: auto auto auto;
- }
 
-.image-content{
-  margin-top: 20x;
-  margin-bottom: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 10px;
-  background-color: #333333;
-  height: 260px;
-  width: 220px;
-  align-content: center;
+.view-all-btn{
+  border-radius: 10px;
+  color: #95f953;
+  border: none;
 }
-
-.favorite-btn:hover{
+.view-all-btn:hover {
+  text-decoration: none;
   color: #95f953;
 }
-
-.navbar-logo{
-  height: 5%;
-  width: 5%;
-}
-
-#imageDropdown{
-  position: absolute;
-  right: 0%;
-}
-.dropdown-btn{
-  background-color:black;
-  border: none;
-  color: white;
-  border-radius: 10px;
-  float: right;
+.prev-comments{
+  background-color: grey;
+  margin-top: 10px;
 }
 .delete-comment{
   background-color: red;
@@ -230,6 +288,12 @@ body {
   text-align: center;
   color: white;
 }
+
+/* drop down */
+#imageDropdown{
+  position: absolute;
+  right: 0%;
+}
 .dropdown-delete{
  color: red;
 }
@@ -237,17 +301,12 @@ body {
 .dropdown-item{
 text-decoration: none;
 }
-
 .dropdown{
   padding: 10px;
 }
 
-.comment-section {
-  height:300px;
-  overflow-y: scroll;
-  padding: 10px;
-  padding-bottom: 30px;
-}
+/* carousel */
+
 /* media query
 @media screen and (min-width: 600px){
   .user-image {

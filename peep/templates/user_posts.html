@@ -9,6 +9,18 @@
             <div class="article-metadata">
               <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
               <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d, %I:%M %p') }}</small>
+			  <div class="dropdown">
+				{% if post.author == current_user %}
+				<!-- dropdown buttons -->
+				<button class = "home-dropdown-btn btn btn-sm m-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="material-icons"> more_horiz</span>
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item"  href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
+					<a class="dropdown-item" style="color:red"  type="button" data-toggle="modal" data-target="#deleteModal"> Delete </a>
+				</div>
+				{% endif %}
+			</div>
             </div>
             <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
 			<p class="article-content">{{ post.content }}</p>
@@ -29,11 +41,11 @@
 					{% for image in post_images[outer_loop.index0] %}
 					{% if loop.index == 1 %}
 					<div class="carousel-item active">
-						<img class="d-block w-100" src="{{ url_for('static', filename='post_pics/' + image.image_file) }}" alt="Slide {{loop.index}}">
+						<img class="d-block carousel-image" src="{{ url_for('static', filename='post_pics/' + image.image_file) }}" alt="Slide {{loop.index}}">
 					</div>
 					{% else %}
 					<div class="carousel-item">
-						<img class="d-block w-100" src="{{ url_for('static', filename='post_pics/' + image.image_file) }}" alt="Slide {{loop.index}}">
+						<img class="d-block carousel-image" src="{{ url_for('static', filename='post_pics/' + image.image_file) }}" alt="Slide {{loop.index}}">
 					</div>
 					{% endif %}
 					{% endfor %}
@@ -54,9 +66,12 @@
 				alt="{{ post_images[outer_loop.index0][0].image_file }}"
 			>
 			{% endif %}
+			<!-- buttons -->
+			<a class="reply-btn btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a>	
+				
+			<!-- view all comments button -->
+			<a class="view-all-btn" href="{{ url_for('posts.post', post_id=post.id) }}">View All Comments</a>
 
-			<a class="reply-btn btn" href="{{ url_for('posts.post', post_id=post.id) }}">View Comments</a>
-			<a class="reply-btn btn" href="{{ url_for('posts.comment', post_id=post.id) }}">Reply</a> 
           </div>
         </article>
     {% endfor %}
