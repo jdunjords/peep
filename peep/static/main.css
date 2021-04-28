@@ -24,6 +24,12 @@
   align-content: center;
 }
 
+.carousel-image{
+  max-height: 300px;
+  width: auto;
+  align-items: center;
+}
+
 /* main css */
 body {
 	background-image: url('./design-images/background.jpg');
