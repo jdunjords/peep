@@ -29,6 +29,11 @@
   width: auto;
 }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 /* main css */
 body {
 	background-image: url('./design-images/background.jpg');
